@@ -1,5 +1,7 @@
-TITLE
-A comprehensive guide for Valorant
+# SpikeSense 
+
+
+## A comprehensive guide for Valorant
 ---
 Logo: \
 ![alt](./assets/logo.png)
