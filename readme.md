@@ -13,7 +13,7 @@ This is a website that aims to help players that are new to Valorant better unde
 ---
 <font size="4"> Pages: </font> 
 
-Homepage -
+Homepage - Page that connects to all the other pages, 4 buttons that open each page.
 
 P1 (Weapons) - Page that containsimages of the different guns and weapons of Valorant which you can click to see their use and descriptions.
 
