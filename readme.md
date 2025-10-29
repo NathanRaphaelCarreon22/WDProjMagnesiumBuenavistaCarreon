@@ -30,7 +30,7 @@ Homepage: Special animations when hovering over the buttons that lead to the oth
 Page 1: A box with an animation that appears for each weapon icon/image clicked, containing information. \
 Page 2: Cards of information that appear when clicking on an icon that corresponds to the character. \
 Page 3: Zoom-in feature when hovering over certain parts of the images of the maps. When images are clicked, box that pushes the other images aside appears and displays information. \
-All Pages: When scrolling past the content, footer will pop out, showing sources. \
+All Pages: When scrolling past the content, footer will pop out, showing sources. 
 ---
 Homepage: \
 ![alt](./assets/1.png)
