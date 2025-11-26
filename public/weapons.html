@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valorant Weapons</title>
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #0a1a40; 
+    color: white;
+    overflow-x: hidden;
+}
+
+.title {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 50px;
+    text-shadow: 2px 2px 10px black;
+}
+
+
+.weapons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 35px;
+    padding: 30px;
+}
+
+
+.weapon-box {
+    background: rgba(255,255,255,0.08);
+    border-radius: 15px;
+    margin: 10px;
+    padding: 20px;
+    width: 180px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.weapon-box:hover {
+    transform: scale(1.05);
+}
+
+
+.weapon-img {
+    width: 140px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+
+.overlay-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 900;
+}
+
+.weapon-box:hover ~ .overlay-bg {
+    opacity: 1;
+}
+
+
+.weapon-box .zoom-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 50vw;
+    max-width: 650px;
+    background: rgba(0,0,0,0.95);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 0 50px #ff0000;
+    z-index: 1000;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+
+.weapon-box:hover .zoom-overlay {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+
+.zoomed-img {
+    width: 80%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+
+.zoomed-name {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+
+.zoomed-desc {
+    font-size: 18px;
+}
+</style>
+</head>
+<body>
+
+<h1 class="title">WEAPONS</h1>
+
+<div class="weapons-container">
+
+
+<div class="weapon-box">
+    <img src="assets/classic.webp" alt="Classic" class="weapon-img">
+    CLASSIC
+    <div class="zoom-overlay">
+        <img src="assets/classic.webp" alt="Classic" class="zoomed-img">
+        <div class="zoomed-name">CLASSIC</div>
+        <div class="zoomed-desc">The default sidearm. Accurate at medium range and reliable in most situations.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/shorty.webp" alt="Shorty" class="weapon-img">
+    SHORTY
+    <div class="zoom-overlay">
+        <img src="assets/shorty.webp" alt="Shorty" class="zoomed-img">
+        <div class="zoomed-name">SHORTY</div>
+        <div class="zoomed-desc">A small shotgun that excels in close-quarters combat.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/frenzy.webp" alt="Frenzy" class="weapon-img">
+    FRENZY
+    <div class="zoom-overlay">
+        <img src="assets/frenzy.webp" alt="Frenzy" class="zoomed-img">
+        <div class="zoomed-name">FRENZY</div>
+        <div class="zoomed-desc">A rapid-fire sidearm, great for aggressive pushes and close-range fights.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/ghost.webp" alt="Ghost" class="weapon-img">
+    GHOST
+    <div class="zoom-overlay">
+        <img src="assets/ghost.webp" alt="Ghost" class="zoomed-img">
+        <div class="zoomed-name">GHOST</div>
+        <div class="zoomed-desc">A silenced pistol with high accuracy, perfect for stealthy plays.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/sherrif.webp" alt="Sheriff" class="weapon-img">
+    SHERIFF
+    <div class="zoom-overlay">
+        <img src="assets/sherrif.webp" alt="Sheriff" class="zoomed-img">
+        <div class="zoomed-name">SHERIFF</div>
+        <div class="zoomed-desc">A powerful revolver capable of killing with a single headshot.</div>
+    </div>
+</div>
+
+
+<div class="weapon-box">
+    <img src="assets/stinger.webp" alt="Stinger" class="weapon-img">
+    STINGER
+    <div class="zoom-overlay">
+        <img src="assets/stinger.webp" alt="Stinger" class="zoomed-img">
+        <div class="zoomed-name">STINGER</div>
+        <div class="zoomed-desc">High rate of fire SMG, deadly at close range.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/spectre.webp" alt="Spectre" class="weapon-img">
+    SPECTRE
+    <div class="zoom-overlay">
+        <img src="assets/spectre.webp" alt="Spectre" class="zoomed-img">
+        <div class="zoomed-name">SPECTRE</div>
+        <div class="zoomed-desc">A versatile SMG with decent range and accuracy.</div>
+    </div>
+</div>
+
+
+<div class="weapon-box">
+    <img src="assets/bulldog.webp" alt="Bulldog" class="weapon-img">
+    BULLDOG
+    <div class="zoom-overlay">
+        <img src="assets/bulldog.webp" alt="Bulldog" class="zoomed-img">
+        <div class="zoomed-name">BULLDOG</div>
+        <div class="zoomed-desc">Automatic rifle, balanced for mid-range engagements.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/guardian.webp" alt="Guardian" class="weapon-img">
+    GUARDIAN
+    <div class="zoom-overlay">
+        <img src="assets/guardian.webp" alt="Guardian" class="zoomed-img">
+        <div class="zoomed-name">GUARDIAN</div>
+        <div class="zoomed-desc">Semi-automatic rifle, high damage with precision shots.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/phantom.webp" alt="Phantom" class="weapon-img">
+    PHANTOM
+    <div class="zoom-overlay">
+        <img src="assets/phantom.webp" alt="Phantom" class="zoomed-img">
+        <div class="zoomed-name">PHANTOM</div>
+        <div class="zoomed-desc">Fully automatic rifle, good for stealth and mid-range combat.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/vandal.webp" alt="Vandal" class="weapon-img">
+    VANDAL
+    <div class="zoom-overlay">
+        <img src="assets/vandal.webp" alt="Vandal" class="zoomed-img">
+        <div class="zoomed-name">VANDAL</div>
+        <div class="zoomed-desc">Automatic rifle, high damage, effective at all ranges.</div>
+    </div>
+</div>
+
+
+<div class="weapon-box">
+    <img src="assets/marshal.webp" alt="Marshal" class="weapon-img">
+    MARSHAL
+    <div class="zoom-overlay">
+        <img src="assets/marshal.webp" alt="Marshal" class="zoomed-img">
+        <div class="zoomed-name">MARSHAL</div>
+        <div class="zoomed-desc">Light sniper, fast and accurate for headshots.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/outlaw.webp" alt="Outlaw" class="weapon-img">
+    OUTLAW
+    <div class="zoom-overlay">
+        <img src="assets/outlaw.webp" alt="Outlaw" class="zoomed-img">
+        <div class="zoomed-name">OUTLAW</div>
+        <div class="zoomed-desc">High damage semi-auto sniper, good for precise shots.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/operator.webp" alt="Operator" class="weapon-img">
+    OPERATOR
+    <div class="zoom-overlay">
+        <img src="assets/operator.webp" alt="Operator" class="zoomed-img">
+        <div class="zoomed-name">OPERATOR</div>
+        <div class="zoomed-desc">Powerful sniper rifle capable of one-shot kills.</div>
+    </div>
+</div>
+
+
+<div class="weapon-box">
+    <img src="assets/bucky.webp" alt="Bucky" class="weapon-img">
+    BUCKY
+    <div class="zoom-overlay">
+        <img src="assets/bucky.webp" alt="Bucky" class="zoomed-img">
+        <div class="zoomed-name">BUCKY</div>
+        <div class="zoomed-desc">Close-range shotgun, effective for tight spaces.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/judge.webp" alt="Judge" class="weapon-img">
+    JUDGE
+    <div class="zoom-overlay">
+        <img src="assets/judge.webp" alt="Judge" class="zoomed-img">
+        <div class="zoomed-name">JUDGE</div>
+        <div class="zoomed-desc">Fully automatic shotgun, deadly in close quarters.</div>
+    </div>
+</div>
+
+
+<div class="weapon-box">
+    <img src="assets/ares.webp" alt="Ares" class="weapon-img">
+    ARES
+    <div class="zoom-overlay">
+        <img src="assets/ares.webp" alt="Ares" class="zoomed-img">
+        <div class="zoomed-name">ARES</div>
+        <div class="zoomed-desc">Light machine gun with high rate of fire.</div>
+    </div>
+</div>
+
+<div class="weapon-box">
+    <img src="assets/odin.webp" alt="Odin" class="weapon-img">
+    ODIN
+    <div class="zoom-overlay">
+        <img src="assets/odin.webp" alt="Odin" class="zoomed-img">
+        <div class="zoomed-name">ODIN</div>
+        <div class="zoomed-desc">Heavy machine gun, very high damage and suppressive fire.</div>
+    </div>
+</div>
+
+
+<div class="weapon-box">
+    <img src="assets/melee.webp" alt="Melee" class="weapon-img">
+    MELEE
+    <div class="zoom-overlay">
+        <img src="assets/melee.webp" alt="Melee" class="zoomed-img">
+        <div class="zoomed-name">MELEE</div>
+        <div class="zoomed-desc">Basic melee weapon for close combat.</div>
+    </div>
+</div>
+
+<div class="overlay-bg"></div>
+
+</div>
+</body>
+</html>
