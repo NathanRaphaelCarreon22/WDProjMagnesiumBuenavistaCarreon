@@ -1,39 +1,270 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="2Q Project" />
-    <meta name="keywords" content="2Q Projects"/>
-    <meta name="author" content="Sean Buenavista, Nathan Carreon"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpikeSense</title>
+<style>
+  
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #0b0f1a, #1a1f2e);
+    color: #fff;
+    display: flex;
+    transition: margin-left 0.3s;
+    overflow-x: hidden;
+  }
 
-    <title>Spike Sense</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href = "../assets/logo.png" type = "image/png">
-    <style>
+  
+  .sidebar {
+    height: 100%;
+    width: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(26, 31, 46, 0.95);
+    overflow-x: hidden;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: width 0.3s;
+    z-index: 100;
+    box-shadow: 2px 0 20px rgba(255, 70, 85, 0.5);
+  }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-image: url('https://images.wallpapersden.com/image/download/valorant-logo-art_bGZubWuUmZqaraWkpJRmbmdlrWZlbWU.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            background-position: center;
-            color: cyan;
-            line-height: 1.6;
-            padding: 20px;
-            text-shadow: 0 0 4px #00ffff;
-        }
+  .sidebar.expanded {
+    width: 250px;
+    align-items: flex-start;
+    padding-left: 10px;
+  }
 
-    </style>
+  .sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 10px;
+    width: 100%;
+    font-size: 1.3rem;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .sidebar a:hover {
+    color: #ff4655;
+    background-color: rgba(255, 70, 85, 0.25);
+    box-shadow: 0 0 15px #ff4655, 0 0 30px #ff4655;
+    border-radius: 10px;
+  }
+
+  .sidebar img {
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(0 0 5px #ff4655);
+    transition: transform 0.3s;
+  }
+
+  .sidebar a:hover img {
+    transform: scale(1.2);
+  }
+
+  .toggle-btn {
+    position: absolute;
+    top: 20px;
+    right: -25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ff4655;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 15px #ff4655, 0 0 30px #ff4655;
+  }
+
+  .toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #ff4655, 0 0 50px #ff4655;
+  }
+
+  body.sidebar-expanded {
+    margin-left: 250px;
+  }
+
+
+  header {
+    position: fixed;
+    top: 20px;
+    left: 60px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ff4655;
+    text-shadow: 0 0 5px #ff4655, 0 0 20px #ff4655;
+    z-index: 50;
+    transition: left 0.3s, text-shadow 1s ease-in-out;
+    animation: glow 2s infinite alternate;
+  }
+
+  body.sidebar-expanded header {
+    left: 250px;
+  }
+
+  @keyframes glow {
+    0% { text-shadow: 0 0 5px #ff4655, 0 0 20px #ff4655; }
+    50% { text-shadow: 0 0 10px #ff4655, 0 0 40px #ff4655; }
+    100% { text-shadow: 0 0 5px #ff4655, 0 0 20px #ff4655; }
+  }
+
+ 
+  .main-content {
+    margin-top: 100px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
+  .intro {
+    max-width: 900px;
+    background-color: rgba(26, 31, 46, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    text-align: center;
+    line-height: 1.6;
+    box-shadow: 0 0 20px #ff4655, 0 0 40px rgba(255,70,85,0.5);
+  }
+
+  .intro h2 {
+    color: #ff4655;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #ff4655;
+  }
+
+
+  .button-container {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .valorant-btn {
+    background-color: #1a1f2e;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 10px #ff4655, 0 0 20px rgba(255,70,85,0.5);
+    animation: pulse 2s infinite alternate;
+  }
+
+  .valorant-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+  }
+
+  .valorant-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 35px #ff4655, 0 0 70px rgba(255,70,85,0.7);
+    animation: none; 
+  }
+
+  .valorant-btn:hover img {
+    transform: scale(1.05);
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 10px #ff4655, 0 0 20px rgba(255,70,85,0.5); }
+    50% { box-shadow: 0 0 25px #ff4655, 0 0 50px rgba(255,70,85,0.7); }
+    100% { box-shadow: 0 0 10px #ff4655, 0 0 20px rgba(255,70,85,0.5); }
+  }
+
+ 
+  @media (max-width: 768px) {
+    .valorant-btn {
+      width: 200px;
+      height: 200px;
+    }
+    .intro {
+      margin: 20px;
+      padding: 20px;
+    }
+    header {
+      font-size: 2rem;
+    }
+  }
+</style>
 </head>
-
 <body>
 
 
+<div id="mySidebar" class="sidebar">
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+  <a href="public/weapons.html">
+    <img src="public/assets/weapons icon.webp" alt="Weapons"> <span class="label">Weapons</span>
+  </a>
+  <a href="public/agents.html">
+    <img src="public/assets/agents logo button.png" alt="Agents"> <span class="label">Agents</span>
+  </a>
+  <a href="public/maps.html">
+    <img src="public/assets/maps icon.webp" alt="Maps"> <span class="label">Maps</span>
+  </a>
+  <a href="public/skins.html">
+    <img src="public/assets/skins icon.webp" alt="Skins"> <span class="label">Skins</span>
+  </a>
+</div>
+
+
+<header>SpikeSense</header>
+
+
+<div class="main-content">
+  <div class="intro">
+    <h2>Welcome to Valorant</h2>
+    <p>valo intro here mamaya na ilalagay</p>
+  </div>
+
+  <div class="button-container">
+    <button class="valorant-btn" onclick="location.href='public/weapons.html'">
+      <img src="public/assets/weapons logo button.webp" alt="Weapons">
+    </button>
+    <button class="valorant-btn" onclick="location.href='public/agents.html'">
+      <img src="public/assets/agents logo button.webp" alt="Agents">
+    </button>
+    <button class="valorant-btn" onclick="location.href='public/maps.html'">
+      <img src="public/assets/maps logo button.webp" alt="Maps">
+    </button>
+    <button class="valorant-btn" onclick="location.href='public/skins.html'">
+      <img src="public/assets/skins logo button.webp" alt="Skins">
+    </button>
+  </div>
+</div>
+
+<script>
+  const sidebar = document.getElementById("mySidebar");
+
+  function toggleSidebar() {
+    sidebar.classList.toggle("expanded");
+    document.body.classList.toggle("sidebar-expanded");
+  }
+</script>
+
 </body>
-
-
-    
-<html>
+</html>
