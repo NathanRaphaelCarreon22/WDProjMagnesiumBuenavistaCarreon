@@ -3,330 +3,397 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valorant Weapons</title>
+<title>Valorant Weapons + Aim Trainer</title>
 <style>
-
+:root {
+    --red: #ff4655;
+    --dark: #0f1923;
+    --panel: #0b1622;
+}
 body {
     margin: 0;
-    padding: 0;
     font-family: Arial, sans-serif;
-    background: #0a1a40; 
+    background: radial-gradient(circle at top, #142850, var(--dark));
     color: white;
-    overflow-x: hidden;
 }
-
 .title {
     text-align: center;
-    margin: 20px 0;
-    font-size: 50px;
-    text-shadow: 2px 2px 10px black;
+    margin: 30px 0;
+    font-size: 56px;
+    letter-spacing: 4px;
+    color: var(--red);
+    text-shadow: 0 0 25px rgba(255,70,85,0.4);
 }
-
-
 .weapons-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 35px;
-    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+    padding: 40px;
+    max-width: 1600px;
+    margin: auto;
 }
-
-
 .weapon-box {
-    background: rgba(255,255,255,0.08);
-    border-radius: 15px;
-    margin: 10px;
-    padding: 20px;
-    width: 180px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 30px 20px;
     text-align: center;
     cursor: pointer;
     font-weight: bold;
-    color: white;
-    position: relative;
-    transition: transform 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-
 .weapon-box:hover {
-    transform: scale(1.05);
+    transform: scale(1.15);
+    box-shadow: 0 0 35px rgba(255,70,85,0.45);
 }
-
-
 .weapon-img {
-    width: 140px;
-    height: auto;
-    display: block;
-    margin: 0 auto 10px auto;
+    width: 130px;
+    margin-bottom: 12px;
 }
-
-
-.overlay-bg {
+.overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
+    inset: 0;
+    background: rgba(0,0,0,0.65);
     opacity: 0;
-    transition: opacity 0.3s ease;
     pointer-events: none;
+    transition: opacity 0.25s ease;
     z-index: 900;
 }
-
-.weapon-box:hover ~ .overlay-bg {
+.overlay.active {
     opacity: 1;
+    pointer-events: all;
 }
-
-
-.weapon-box .zoom-overlay {
+.popup {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    width: 50vw;
-    max-width: 650px;
-    background: rgba(0,0,0,0.95);
-    border-radius: 15px;
-    padding: 25px;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    background: var(--panel);
+    border: 2px solid var(--red);
+    border-radius: 18px;
+    padding: 28px;
     text-align: center;
-    color: white;
-    box-shadow: 0 0 50px #ff0000;
-    z-index: 1000;
-    pointer-events: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 0 55px rgba(255,70,85,0.5);
     opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    z-index: 1000;
 }
-
-
-.weapon-box:hover .zoom-overlay {
-    transform: translate(-50%, -50%) scale(1);
+.popup.active {
     opacity: 1;
+    pointer-events: all;
 }
-
-
-.zoomed-img {
-    width: 80%;
-    height: auto;
-    margin-bottom: 15px;
+.popup img {
+    width: 70%;
+    margin-bottom: 14px;
 }
-
-
-.zoomed-name {
-    font-size: 32px;
+.popup h2 {
+    color: var(--red);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+.popup p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 16px;
+}
+.stat {
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+.stat span {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+.bar {
+    height: 8px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+    overflow: hidden;
+}
+.fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--red), #ff7b84);
+}
+.close-btn {
+    margin-top: 14px;
+    padding: 8px 14px;
+    border: none;
+    background: var(--red);
+    color: white;
     font-weight: bold;
-    margin-bottom: 12px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-
-.zoomed-desc {
-    font-size: 18px;
+/* AIM TRAINER SECTION */
+.aim-trainer {
+    background: #0b1622;
+    margin: 60px auto;
+    padding: 30px;
+    border-radius: 18px;
+    max-width: 900px;
+    text-align: center;
+}
+.aim-trainer h2 {
+    color: var(--red);
+    margin-bottom: 20px;
+}
+.target {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--red);
+    position: absolute;
+    cursor: pointer;
+}
+.score {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #fff;
 }
 </style>
 </head>
 <body>
-
 <h1 class="title">WEAPONS</h1>
-
 <div class="weapons-container">
-
-
-<div class="weapon-box">
-    <img src="assets/classic.webp" alt="Classic" class="weapon-img">
-    CLASSIC
-    <div class="zoom-overlay">
-        <img src="assets/classic.webp" alt="Classic" class="zoomed-img">
-        <div class="zoomed-name">CLASSIC</div>
-        <div class="zoomed-desc">The default sidearm. Accurate at medium range and reliable in most situations.</div>
-    </div>
+<div class="weapon-box" onclick="openPopup('classic')"><img src="assets/classic.webp" class="weapon-img">CLASSIC</div>
+<div class="weapon-box" onclick="openPopup('shorty')"><img src="assets/shorty.webp" class="weapon-img">SHORTY</div>
+<div class="weapon-box" onclick="openPopup('frenzy')"><img src="assets/frenzy.webp" class="weapon-img">FRENZY</div>
+<div class="weapon-box" onclick="openPopup('ghost')"><img src="assets/ghost.webp" class="weapon-img">GHOST</div>
+<div class="weapon-box" onclick="openPopup('sheriff')"><img src="assets/sherrif.webp" class="weapon-img">SHERIFF</div>
+<div class="weapon-box" onclick="openPopup('stinger')"><img src="assets/stinger.webp" class="weapon-img">STINGER</div>
+<div class="weapon-box" onclick="openPopup('spectre')"><img src="assets/spectre.webp" class="weapon-img">SPECTRE</div>
+<div class="weapon-box" onclick="openPopup('bulldog')"><img src="assets/bulldog.webp" class="weapon-img">BULLDOG</div>
+<div class="weapon-box" onclick="openPopup('guardian')"><img src="assets/guardian.webp" class="weapon-img">GUARDIAN</div>
+<div class="weapon-box" onclick="openPopup('phantom')"><img src="assets/phantom.webp" class="weapon-img">PHANTOM</div>
+<div class="weapon-box" onclick="openPopup('vandal')"><img src="assets/vandal.webp" class="weapon-img">VANDAL</div>
+<div class="weapon-box" onclick="openPopup('marshal')"><img src="assets/marshal.webp" class="weapon-img">MARSHAL</div>
+<div class="weapon-box" onclick="openPopup('outlaw')"><img src="assets/outlaw.webp" class="weapon-img">OUTLAW</div>
+<div class="weapon-box" onclick="openPopup('operator')"><img src="assets/operator.webp" class="weapon-img">OPERATOR</div>
+<div class="weapon-box" onclick="openPopup('bucky')"><img src="assets/bucky.webp" class="weapon-img">BUCKY</div>
+<div class="weapon-box" onclick="openPopup('judge')"><img src="assets/judge.webp" class="weapon-img">JUDGE</div>
+<div class="weapon-box" onclick="openPopup('ares')"><img src="assets/ares.webp" class="weapon-img">ARES</div>
+<div class="weapon-box" onclick="openPopup('odin')"><img src="assets/odin.webp" class="weapon-img">ODIN</div>
+<div class="weapon-box" onclick="openPopup('melee')"><img src="assets/melee.webp" class="weapon-img">MELEE</div>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/shorty.webp" alt="Shorty" class="weapon-img">
-    SHORTY
-    <div class="zoom-overlay">
-        <img src="assets/shorty.webp" alt="Shorty" class="zoomed-img">
-        <div class="zoomed-name">SHORTY</div>
-        <div class="zoomed-desc">A small shotgun that excels in close-quarters combat.</div>
-    </div>
+<div class="overlay" onclick="closePopup()"></div>
+
+<div class="popup" id="classic">
+<img src="assets/classic.webp"><h2>CLASSIC</h2><p>Standard sidearm, reliable and versatile.</p>
+<div class="stat"><span>DAMAGE <b>55</b></span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+<div class="stat"><span>RANGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/frenzy.webp" alt="Frenzy" class="weapon-img">
-    FRENZY
-    <div class="zoom-overlay">
-        <img src="assets/frenzy.webp" alt="Frenzy" class="zoomed-img">
-        <div class="zoomed-name">FRENZY</div>
-        <div class="zoomed-desc">A rapid-fire sidearm, great for aggressive pushes and close-range fights.</div>
-    </div>
+<div class="popup" id="shorty">
+<img src="assets/shorty.webp"><h2>SHORTY</h2><p>Close-range shotgun.</p>
+<div class="stat"><span>DAMAGE <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>55</b></span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<div class="stat"><span>RANGE <b>20</b></span><div class="bar"><div class="fill" style="width:20%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/ghost.webp" alt="Ghost" class="weapon-img">
-    GHOST
-    <div class="zoom-overlay">
-        <img src="assets/ghost.webp" alt="Ghost" class="zoomed-img">
-        <div class="zoomed-name">GHOST</div>
-        <div class="zoomed-desc">A silenced pistol with high accuracy, perfect for stealthy plays.</div>
-    </div>
+<div class="popup" id="frenzy">
+<img src="assets/frenzy.webp"><h2>FRENZY</h2><p>High fire-rate pistol.</p>
+<div class="stat"><span>DAMAGE <b>45</b></span><div class="bar"><div class="fill" style="width:45%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>RANGE <b>40</b></span><div class="bar"><div class="fill" style="width:40%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/sherrif.webp" alt="Sheriff" class="weapon-img">
-    SHERIFF
-    <div class="zoom-overlay">
-        <img src="assets/sherrif.webp" alt="Sheriff" class="zoomed-img">
-        <div class="zoomed-name">SHERIFF</div>
-        <div class="zoomed-desc">A powerful revolver capable of killing with a single headshot.</div>
-    </div>
+<div class="popup" id="ghost">
+<img src="assets/ghost.webp"><h2>GHOST</h2><p>Silenced precision pistol.</p>
+<div class="stat"><span>DAMAGE <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+<div class="stat"><span>RANGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-
-<div class="weapon-box">
-    <img src="assets/stinger.webp" alt="Stinger" class="weapon-img">
-    STINGER
-    <div class="zoom-overlay">
-        <img src="assets/stinger.webp" alt="Stinger" class="zoomed-img">
-        <div class="zoomed-name">STINGER</div>
-        <div class="zoomed-desc">High rate of fire SMG, deadly at close range.</div>
-    </div>
+<div class="popup" id="sheriff">
+<img src="assets/sherrif.webp"><h2>SHERIFF</h2><p>High damage revolver, deadly in skilled hands.</p>
+<div class="stat"><span>DAMAGE <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>40</b></span><div class="bar"><div class="fill" style="width:40%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+<div class="stat"><span>RANGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/spectre.webp" alt="Spectre" class="weapon-img">
-    SPECTRE
-    <div class="zoom-overlay">
-        <img src="assets/spectre.webp" alt="Spectre" class="zoomed-img">
-        <div class="zoomed-name">SPECTRE</div>
-        <div class="zoomed-desc">A versatile SMG with decent range and accuracy.</div>
-    </div>
+<div class="popup" id="stinger">
+<img src="assets/stinger.webp"><h2>STINGER</h2><p>SMG with high rate of fire, deadly at close range.</p>
+<div class="stat"><span>DAMAGE <b>55</b></span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>RANGE <b>45</b></span><div class="bar"><div class="fill" style="width:45%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-
-<div class="weapon-box">
-    <img src="assets/bulldog.webp" alt="Bulldog" class="weapon-img">
-    BULLDOG
-    <div class="zoom-overlay">
-        <img src="assets/bulldog.webp" alt="Bulldog" class="zoomed-img">
-        <div class="zoomed-name">BULLDOG</div>
-        <div class="zoomed-desc">Automatic rifle, balanced for mid-range engagements.</div>
-    </div>
+<div class="popup" id="spectre">
+<img src="assets/spectre.webp"><h2>SPECTRE</h2><p>Versatile SMG with decent range and accuracy.</p>
+<div class="stat"><span>DAMAGE <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+<div class="stat"><span>RANGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/guardian.webp" alt="Guardian" class="weapon-img">
-    GUARDIAN
-    <div class="zoom-overlay">
-        <img src="assets/guardian.webp" alt="Guardian" class="zoomed-img">
-        <div class="zoomed-name">GUARDIAN</div>
-        <div class="zoomed-desc">Semi-automatic rifle, high damage with precision shots.</div>
-    </div>
+<div class="popup" id="bulldog">
+<img src="assets/bulldog.webp"><h2>BULLDOG</h2><p>Automatic rifle, balanced for mid-range combat.</p>
+<div class="stat"><span>DAMAGE <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+<div class="stat"><span>RANGE <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/phantom.webp" alt="Phantom" class="weapon-img">
-    PHANTOM
-    <div class="zoom-overlay">
-        <img src="assets/phantom.webp" alt="Phantom" class="zoomed-img">
-        <div class="zoomed-name">PHANTOM</div>
-        <div class="zoomed-desc">Fully automatic rifle, good for stealth and mid-range combat.</div>
-    </div>
+<div class="popup" id="guardian">
+<img src="assets/guardian.webp"><h2>GUARDIAN</h2><p>Semi-automatic rifle, high damage with precision shots.</p>
+<div class="stat"><span>DAMAGE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+<div class="stat"><span>RANGE <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/vandal.webp" alt="Vandal" class="weapon-img">
-    VANDAL
-    <div class="zoom-overlay">
-        <img src="assets/vandal.webp" alt="Vandal" class="zoomed-img">
-        <div class="zoomed-name">VANDAL</div>
-        <div class="zoomed-desc">Automatic rifle, high damage, effective at all ranges.</div>
-    </div>
+<div class="popup" id="phantom">
+<img src="assets/phantom.webp"><h2>PHANTOM</h2><p>Automatic rifle, stealthy with moderate recoil.</p>
+<div class="stat"><span>DAMAGE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+<div class="stat"><span>RANGE <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-
-<div class="weapon-box">
-    <img src="assets/marshal.webp" alt="Marshal" class="weapon-img">
-    MARSHAL
-    <div class="zoom-overlay">
-        <img src="assets/marshal.webp" alt="Marshal" class="zoomed-img">
-        <div class="zoomed-name">MARSHAL</div>
-        <div class="zoomed-desc">Light sniper, fast and accurate for headshots.</div>
-    </div>
+<div class="popup" id="vandal">
+<img src="assets/vandal.webp"><h2>VANDAL</h2><p>Automatic rifle, high damage, effective at all ranges.</p>
+<div class="stat"><span>DAMAGE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+<div class="stat"><span>RANGE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/outlaw.webp" alt="Outlaw" class="weapon-img">
-    OUTLAW
-    <div class="zoom-overlay">
-        <img src="assets/outlaw.webp" alt="Outlaw" class="zoomed-img">
-        <div class="zoomed-name">OUTLAW</div>
-        <div class="zoomed-desc">High damage semi-auto sniper, good for precise shots.</div>
-    </div>
+<div class="popup" id="marshal">
+<img src="assets/marshal.webp"><h2>MARSHAL</h2><p>Light sniper rifle, fast and accurate.</p>
+<div class="stat"><span>DAMAGE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>40</b></span><div class="bar"><div class="fill" style="width:40%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+<div class="stat"><span>RANGE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/operator.webp" alt="Operator" class="weapon-img">
-    OPERATOR
-    <div class="zoom-overlay">
-        <img src="assets/operator.webp" alt="Operator" class="zoomed-img">
-        <div class="zoomed-name">OPERATOR</div>
-        <div class="zoomed-desc">Powerful sniper rifle capable of one-shot kills.</div>
-    </div>
+<div class="popup" id="outlaw">
+<img src="assets/outlaw.webp"><h2>OUTLAW</h2><p>Semi-auto sniper, high damage and precise.</p>
+<div class="stat"><span>DAMAGE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>35</b></span><div class="bar"><div class="fill" style="width:35%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+<div class="stat"><span>RANGE <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-
-<div class="weapon-box">
-    <img src="assets/bucky.webp" alt="Bucky" class="weapon-img">
-    BUCKY
-    <div class="zoom-overlay">
-        <img src="assets/bucky.webp" alt="Bucky" class="zoomed-img">
-        <div class="zoomed-name">BUCKY</div>
-        <div class="zoomed-desc">Close-range shotgun, effective for tight spaces.</div>
-    </div>
+<div class="popup" id="operator">
+<img src="assets/operator.webp"><h2>OPERATOR</h2><p>Powerful sniper rifle capable of one-shot kills.</p>
+<div class="stat"><span>DAMAGE <b>120</b></span><div class="bar"><div class="fill" style="width:100%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>30</b></span><div class="bar"><div class="fill" style="width:30%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>95</b></span><div class="bar"><div class="fill" style="width:95%"></div></div></div>
+<div class="stat"><span>RANGE <b>100</b></span><div class="bar"><div class="fill" style="width:100%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/judge.webp" alt="Judge" class="weapon-img">
-    JUDGE
-    <div class="zoom-overlay">
-        <img src="assets/judge.webp" alt="Judge" class="zoomed-img">
-        <div class="zoomed-name">JUDGE</div>
-        <div class="zoomed-desc">Fully automatic shotgun, deadly in close quarters.</div>
-    </div>
+<div class="popup" id="bucky">
+<img src="assets/bucky.webp"><h2>BUCKY</h2><p>Close-range shotgun, deadly in tight spaces.</p>
+<div class="stat"><span>DAMAGE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>RANGE <b>25</b></span><div class="bar"><div class="fill" style="width:25%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-
-<div class="weapon-box">
-    <img src="assets/ares.webp" alt="Ares" class="weapon-img">
-    ARES
-    <div class="zoom-overlay">
-        <img src="assets/ares.webp" alt="Ares" class="zoomed-img">
-        <div class="zoomed-name">ARES</div>
-        <div class="zoomed-desc">Light machine gun with high rate of fire.</div>
-    </div>
+<div class="popup" id="judge">
+<img src="assets/judge.webp"><h2>JUDGE</h2><p>Fully automatic shotgun, lethal in close quarters.</p>
+<div class="stat"><span>DAMAGE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<div class="stat"><span>RANGE <b>30</b></span><div class="bar"><div class="fill" style="width:30%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="weapon-box">
-    <img src="assets/odin.webp" alt="Odin" class="weapon-img">
-    ODIN
-    <div class="zoom-overlay">
-        <img src="assets/odin.webp" alt="Odin" class="zoomed-img">
-        <div class="zoomed-name">ODIN</div>
-        <div class="zoomed-desc">Heavy machine gun, very high damage and suppressive fire.</div>
-    </div>
+<div class="popup" id="ares">
+<img src="assets/ares.webp"><h2>ARES</h2><p>Light machine gun with high rate of fire.</p>
+<div class="stat"><span>DAMAGE <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>RANGE <b>55</b></span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-
-<div class="weapon-box">
-    <img src="assets/melee.webp" alt="Melee" class="weapon-img">
-    MELEE
-    <div class="zoom-overlay">
-        <img src="assets/melee.webp" alt="Melee" class="zoomed-img">
-        <div class="zoomed-name">MELEE</div>
-        <div class="zoomed-desc">Basic melee weapon for close combat.</div>
-    </div>
+<div class="popup" id="odin">
+<img src="assets/odin.webp"><h2>ODIN</h2><p>Heavy machine gun with massive damage.</p>
+<div class="stat"><span>DAMAGE <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+<div class="stat"><span>RANGE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
 
-<div class="overlay-bg"></div>
-
+<div class="popup" id="melee">
+<img src="assets/melee.webp"><h2>MELEE</h2><p>Basic close-combat weapon.</p>
+<div class="stat"><span>DAMAGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+<div class="stat"><span>FIRE RATE <b>100</b></span><div class="bar"><div class="fill" style="width:100%"></div></div></div>
+<div class="stat"><span>ACCURACY <b>100</b></span><div class="bar"><div class="fill" style="width:100%"></div></div></div>
+<div class="stat"><span>RANGE <b>5</b></span><div class="bar"><div class="fill" style="width:5%"></div></div></div>
+<button class="close-btn" onclick="closePopup()">CLOSE</button>
 </div>
+
+<div class="aim-trainer">
+<h2>AIM TRAINING</h2>
+<div id="game-area" style="position:relative;height:300px;background:#142850;border-radius:15px;"></div>
+<div class="score">Score: <span id="score">0</span></div>
+</div>
+
+<script>
+function openPopup(id){
+    document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
+    document.querySelector('.overlay').classList.add('active');
+    document.getElementById(id).classList.add('active');
+}
+function closePopup(){
+    document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
+    document.querySelector('.overlay').classList.remove('active');
+}
+
+// AIM TRAINER
+const gameArea = document.getElementById('game-area');
+let score = 0;
+function createTarget(){
+    const t = document.createElement('div');
+    t.className = 'target';
+    t.style.top = Math.random() * (gameArea.clientHeight-40) + 'px';
+    t.style.left = Math.random() * (gameArea.clientWidth-40) + 'px';
+    t.onclick = () => {
+        score++;
+        document.getElementById('score').innerText = score;
+        t.remove();
+        createTarget();
+    };
+    gameArea.appendChild(t);
+}
+createTarget();
+setInterval(()=>{
+    document.querySelectorAll('.target').forEach(t=>{
+        t.style.top = Math.random() * (gameArea.clientHeight-40) + 'px';
+        t.style.left = Math.random() * (gameArea.clientWidth-40) + 'px';
+    });
+}, 2000);
+</script>
 </body>
 </html>
