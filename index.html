@@ -4,230 +4,201 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SpikeSense</title>
+
 <style>
-  
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #0b0f1a, #1a1f2e);
-    color: #fff;
-    display: flex;
-    transition: margin-left 0.3s;
-    overflow-x: hidden;
-  }
-
-  
-  .sidebar {
-    height: 100%;
-    width: 60px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(26, 31, 46, 0.95);
-    overflow-x: hidden;
-    padding-top: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: width 0.3s;
-    z-index: 100;
-    box-shadow: 2px 0 20px rgba(255, 70, 85, 0.5);
-  }
-
-  .sidebar.expanded {
-    width: 250px;
-    align-items: flex-start;
-    padding-left: 10px;
-  }
-
-  .sidebar a {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 10px;
-    width: 100%;
-    font-size: 1.3rem;
-    color: #fff;
-    text-decoration: none;
-    transition: 0.3s;
-  }
-
-  .sidebar a:hover {
-    color: #ff4655;
-    background-color: rgba(255, 70, 85, 0.25);
-    box-shadow: 0 0 15px #ff4655, 0 0 30px #ff4655;
-    border-radius: 10px;
-  }
-
-  .sidebar img {
-    width: 30px;
-    height: 30px;
-    filter: drop-shadow(0 0 5px #ff4655);
-    transition: transform 0.3s;
-  }
-
-  .sidebar a:hover img {
-    transform: scale(1.2);
-  }
-
-  .toggle-btn {
-    position: absolute;
-    top: 20px;
-    right: -25px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #ff4655;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 101;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 15px #ff4655, 0 0 30px #ff4655;
-  }
-
-  .toggle-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px #ff4655, 0 0 50px #ff4655;
-  }
-
-  body.sidebar-expanded {
-    margin-left: 250px;
-  }
+:root {
+  --red: #ff4655;
+  --dark: #0f1923;
+}
 
 
-  header {
-    position: fixed;
-    top: 20px;
-    left: 60px;
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #ff4655;
-    text-shadow: 0 0 5px #ff4655, 0 0 20px #ff4655;
-    z-index: 50;
-    transition: left 0.3s, text-shadow 1s ease-in-out;
-    animation: glow 2s infinite alternate;
-  }
-
-  body.sidebar-expanded header {
-    left: 250px;
-  }
-
-  @keyframes glow {
-    0% { text-shadow: 0 0 5px #ff4655, 0 0 20px #ff4655; }
-    50% { text-shadow: 0 0 10px #ff4655, 0 0 40px #ff4655; }
-    100% { text-shadow: 0 0 5px #ff4655, 0 0 20px #ff4655; }
-  }
-
- 
-  .main-content {
-    margin-top: 100px;
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #0b0f1a, #1a1f2e);
+  color: #fff;
+  display: flex;
+  overflow-x: hidden;
+  transition: margin-left 0.3s ease;
+}
 
 
-  .intro {
-    max-width: 900px;
-    background-color: rgba(26, 31, 46, 0.9);
-    padding: 30px;
-    border-radius: 20px;
-    margin-bottom: 50px;
-    text-align: center;
-    line-height: 1.6;
-    box-shadow: 0 0 20px #ff4655, 0 0 40px rgba(255,70,85,0.5);
-  }
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60px;
+  background: rgba(26, 31, 46, 0.96);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  transition: width 0.3s ease;
+  z-index: 2000;
+  box-shadow: 2px 0 25px rgba(255,70,85,0.5);
+}
 
-  .intro h2 {
-    color: #ff4655;
-    margin-bottom: 15px;
-    text-shadow: 0 0 5px #ff4655;
-  }
+.sidebar.expanded {
+  width: 250px;
+  align-items: flex-start;
+  padding-left: 12px;
+}
+
+.sidebar a {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 12px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,70,85,0.25);
+  color: var(--red);
+  border-radius: 12px;
+  box-shadow: 0 0 20px var(--red);
+}
+
+.sidebar img {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 6px var(--red));
+}
 
 
-  .button-container {
-    display: flex;
-    gap: 40px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+.toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: -25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--red);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 0 20px var(--red);
+  transition: transform 0.3s;
+}
 
+.toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+
+header {
+  position: fixed;
+  top: 20px;
+  left: 60px; 
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--red);
+  text-shadow: 0 0 10px var(--red), 0 0 30px var(--red);
+  z-index: 1000;
+  transition: left 0.3s ease;
+}
+
+body.sidebar-expanded header {
+  left: 250px; 
+}
+
+
+.main-content {
+  margin-top: 120px;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: margin-left 0.3s ease;
+}
+
+body.sidebar-expanded .main-content {
+  margin-left: 190px; 
+}
+
+
+.intro {
+  max-width: 900px;
+  background: rgba(26, 31, 46, 0.95);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 50px;
+  box-shadow: 0 0 25px var(--red);
+}
+
+.intro h2 {
+  color: var(--red);
+}
+
+
+.button-container {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.valorant-btn {
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  border: none;
+  overflow: hidden;
+  background: #1a1f2e;
+  cursor: pointer;
+  box-shadow: 0 0 20px var(--red);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.valorant-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.valorant-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 40px var(--red);
+}
+
+
+@media (max-width: 768px) {
   .valorant-btn {
-    background-color: #1a1f2e;
-    border: none;
-    border-radius: 20px;
-    overflow: hidden;
-    width: 300px;
-    height: 300px;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 10px #ff4655, 0 0 20px rgba(255,70,85,0.5);
-    animation: pulse 2s infinite alternate;
+    width: 200px;
+    height: 200px;
   }
-
-  .valorant-btn img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s;
+  header {
+    font-size: 2rem;
   }
-
-  .valorant-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 35px #ff4655, 0 0 70px rgba(255,70,85,0.7);
-    animation: none; 
-  }
-
-  .valorant-btn:hover img {
-    transform: scale(1.05);
-  }
-
-  @keyframes pulse {
-    0% { box-shadow: 0 0 10px #ff4655, 0 0 20px rgba(255,70,85,0.5); }
-    50% { box-shadow: 0 0 25px #ff4655, 0 0 50px rgba(255,70,85,0.7); }
-    100% { box-shadow: 0 0 10px #ff4655, 0 0 20px rgba(255,70,85,0.5); }
-  }
-
- 
-  @media (max-width: 768px) {
-    .valorant-btn {
-      width: 200px;
-      height: 200px;
-    }
-    .intro {
-      margin: 20px;
-      padding: 20px;
-    }
-    header {
-      font-size: 2rem;
-    }
-  }
+}
 </style>
 </head>
+
 <body>
 
 
 <div id="mySidebar" class="sidebar">
   <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
   <a href="public/weapons.html">
-    <img src="public/assets/weapons icon.webp" alt="Weapons"> <span class="label">Weapons</span>
+    <img src="public/assets/weapons icon.webp"> Weapons
   </a>
   <a href="public/agents.html">
-    <img src="public/assets/agents logo button.png" alt="Agents"> <span class="label">Agents</span>
+    <img src="public/assets/agents logo button.png"> Agents
   </a>
   <a href="public/maps.html">
-    <img src="public/assets/maps icon.webp" alt="Maps"> <span class="label">Maps</span>
+    <img src="public/assets/maps icon.webp"> Maps
   </a>
   <a href="public/skins.html">
-    <img src="public/assets/skins icon.webp" alt="Skins"> <span class="label">Skins</span>
+    <img src="public/assets/skins icon.webp"> Sources
   </a>
 </div>
 
@@ -238,7 +209,7 @@
 <div class="main-content">
   <div class="intro">
     <h2>Welcome to Valorant</h2>
-    <p>valo intro here mamaya na ilalagay</p>
+    <p>Discover all weapons, agents, maps, and skins. Navigate using the sidebar to explore the full SpikeSense experience!</p>
   </div>
 
   <div class="button-container">
@@ -252,18 +223,16 @@
       <img src="public/assets/maps logo button.webp" alt="Maps">
     </button>
     <button class="valorant-btn" onclick="location.href='public/skins.html'">
-      <img src="public/assets/skins logo button.webp" alt="Skins">
+      <img src="public/assets/skins logo button.webp" alt="Sources">
     </button>
   </div>
 </div>
 
 <script>
-  const sidebar = document.getElementById("mySidebar");
-
-  function toggleSidebar() {
-    sidebar.classList.toggle("expanded");
-    document.body.classList.toggle("sidebar-expanded");
-  }
+function toggleSidebar() {
+  document.getElementById("mySidebar").classList.toggle("expanded");
+  document.body.classList.toggle("sidebar-expanded");
+}
 </script>
 
 </body>

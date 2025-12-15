@@ -3,161 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valorant Weapons + Aim Trainer</title>
+<title>SpikeSense | Weapons</title>
+
 <style>
 :root {
     --red: #ff4655;
     --dark: #0f1923;
     --panel: #0b1622;
 }
+
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #142850, var(--dark));
-    color: white;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: radial-gradient(circle at top, #142850, var(--dark));
+  color: white;
+  display: flex;
+  transition: margin-left 0.3s;
+  overflow-x: hidden;
 }
+
+body.sidebar-expanded {
+  margin-left: 250px;
+}
+
+
+.sidebar {
+  height: 100%;
+  width: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(26, 31, 46, 0.95);
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: width 0.3s;
+  z-index: 2000;
+  box-shadow: 2px 0 20px rgba(255,70,85,0.5);
+}
+
+.sidebar.expanded {
+  width: 250px;
+  align-items: flex-start;
+  padding-left: 10px;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 10px;
+  width: 100%;
+  font-size: 1.2rem;
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: var(--red);
+  background: rgba(255,70,85,0.25);
+  box-shadow: 0 0 15px var(--red);
+  border-radius: 10px;
+}
+
+.sidebar img {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 5px var(--red));
+}
+
+.toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: -25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--red);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  box-shadow: 0 0 15px var(--red);
+}
+
+
+.page-wrapper {
+  margin-left: 60px;
+  width: 100%;
+  transition: margin-left 0.3s;
+}
+
+body.sidebar-expanded .page-wrapper {
+  margin-left: 250px;
+}
+
+
 .title {
-    text-align: center;
-    margin: 30px 0;
-    font-size: 56px;
-    letter-spacing: 4px;
-    color: var(--red);
-    text-shadow: 0 0 25px rgba(255,70,85,0.4);
+  text-align: center;
+  margin: 30px 0;
+  font-size: 56px;
+  letter-spacing: 4px;
+  color: var(--red);
+  text-shadow: 0 0 25px rgba(255,70,85,0.4);
 }
+
+
 .weapons-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 40px;
-    padding: 40px;
-    max-width: 1600px;
-    margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  padding: 40px;
+  max-width: 1600px;
+  margin: auto;
 }
+
 .weapon-box {
-    background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 18px;
-    padding: 30px 20px;
-    text-align: center;
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.25s;
 }
+
 .weapon-box:hover {
-    transform: scale(1.15);
-    box-shadow: 0 0 35px rgba(255,70,85,0.45);
+  transform: scale(1.15);
+  box-shadow: 0 0 35px rgba(255,70,85,0.45);
 }
+
 .weapon-img {
-    width: 130px;
-    margin-bottom: 12px;
+  width: 130px;
+  margin-bottom: 12px;
 }
+
+
 .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-    z-index: 900;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  z-index: 900;
 }
+
 .overlay.active {
-    opacity: 1;
-    pointer-events: all;
+  opacity: 1;
+  pointer-events: all;
 }
+
 .popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 450px;
-    background: var(--panel);
-    border: 2px solid var(--red);
-    border-radius: 18px;
-    padding: 28px;
-    text-align: center;
-    box-shadow: 0 0 55px rgba(255,70,85,0.5);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-    z-index: 1000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  background: var(--panel);
+  border: 2px solid var(--red);
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 0 55px rgba(255,70,85,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s;
+  z-index: 1000;
 }
+
 .popup.active {
-    opacity: 1;
-    pointer-events: all;
+  opacity: 1;
+  pointer-events: all;
 }
+
 .popup img {
-    width: 70%;
-    margin-bottom: 14px;
+  width: 70%;
 }
+
 .popup h2 {
-    color: var(--red);
-    letter-spacing: 2px;
-    margin-bottom: 10px;
+  color: var(--red);
 }
-.popup p {
-    font-size: 14px;
-    opacity: 0.9;
-    margin-bottom: 16px;
-}
+
 .stat {
-    text-align: left;
-    margin-bottom: 10px;
-    font-size: 13px;
+  font-size: 13px;
+  margin-bottom: 10px;
 }
-.stat span {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 4px;
-}
+
 .bar {
-    height: 8px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 6px;
-    overflow: hidden;
+  height: 8px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 6px;
+  overflow: hidden;
 }
+
 .fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--red), #ff7b84);
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), #ff7b84);
 }
+
 .close-btn {
-    margin-top: 14px;
-    padding: 8px 14px;
-    border: none;
-    background: var(--red);
-    color: white;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
+  margin-top: 14px;
+  padding: 8px 14px;
+  border: none;
+  background: var(--red);
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 
 .aim-trainer {
-    background: #0b1622;
-    margin: 60px auto;
-    padding: 30px;
-    border-radius: 18px;
-    max-width: 900px;
-    text-align: center;
+  background: #0b1622;
+  margin: 60px auto;
+  padding: 30px;
+  border-radius: 18px;
+  max-width: 900px;
+  text-align: center;
 }
-.aim-trainer h2 {
-    color: var(--red);
-    margin-bottom: 20px;
+
+#game-area {
+  position: relative;
+  height: 300px;
+  background: #142850;
+  border-radius: 15px;
+  overflow: hidden;
 }
+
 .target {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--red);
-    position: absolute;
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--red);
+  position: absolute;
+  cursor: pointer;
 }
+
 .score {
-    margin-top: 20px;
-    font-size: 20px;
-    color: #fff;
+  margin-top: 20px;
+  font-size: 20px;
 }
 </style>
 </head>
+
 <body>
+
+<div id="mySidebar" class="sidebar">
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+  <a href="../index.html">🏠 Home</a>
+  <a href="agents.html">🧍 Agents</a>
+  <a href="maps.html">🗺 Maps</a>
+  <a href="sources.html">🎨 Sources</a>
+</div>
+
+<div class="page-wrapper">
+
 <h1 class="title">WEAPONS</h1>
 <div class="weapons-container">
 <div class="weapon-box" onclick="openPopup('classic')"><img src="assets/classic.webp" class="weapon-img">CLASSIC</div>
@@ -360,39 +465,47 @@ body {
 <div class="score">Score: <span id="score">0</span></div>
 </div>
 
+</div>
+
+
 <script>
-function openPopup(id){
-    document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
-    document.querySelector('.overlay').classList.add('active');
-    document.getElementById(id).classList.add('active');
+const sidebar = document.getElementById("mySidebar");
+function toggleSidebar() {
+  sidebar.classList.toggle("expanded");
+  document.body.classList.toggle("sidebar-expanded");
 }
-function closePopup(){
-    document.querySelectorAll('.popup').forEach(p=>p.classList.remove('active'));
-    document.querySelector('.overlay').classList.remove('active');
+
+function openPopup(id) {
+  document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+  document.querySelector('.overlay').classList.add('active');
+  document.getElementById(id).classList.add('active');
 }
+
+function closePopup() {
+  document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+  document.querySelector('.overlay').classList.remove('active');
+}
+
 
 const gameArea = document.getElementById('game-area');
 let score = 0;
-function createTarget(){
-    const t = document.createElement('div');
-    t.className = 'target';
-    t.style.top = Math.random() * (gameArea.clientHeight-40) + 'px';
-    t.style.left = Math.random() * (gameArea.clientWidth-40) + 'px';
-    t.onclick = () => {
-        score++;
-        document.getElementById('score').innerText = score;
-        t.remove();
-        createTarget();
-    };
-    gameArea.appendChild(t);
+
+function createTarget() {
+  const t = document.createElement('div');
+  t.className = 'target';
+  t.style.top = Math.random() * 260 + 'px';
+  t.style.left = Math.random() * (gameArea.clientWidth - 40) + 'px';
+  t.onclick = () => {
+    score++;
+    document.getElementById('score').innerText = score;
+    t.remove();
+    createTarget();
+  };
+  gameArea.appendChild(t);
 }
+
 createTarget();
-setInterval(()=>{
-    document.querySelectorAll('.target').forEach(t=>{
-        t.style.top = Math.random() * (gameArea.clientHeight-40) + 'px';
-        t.style.left = Math.random() * (gameArea.clientWidth-40) + 'px';
-    });
-}, 2000);
 </script>
+
 </body>
 </html>

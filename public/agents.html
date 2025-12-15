@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpikeSense | Agents</title>
+
+<style>
+:root {
+  --red: #ff4655;
+  --dark: #0f1923;
+  --light: #fff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #0b0f1a, #1a1f2e);
+  color: var(--light);
+  display: flex;
+}
+
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60px;
+  background: rgba(26, 31, 46, 0.96);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  transition: width 0.3s ease;
+  z-index: 3000;
+  box-shadow: 2px 0 25px rgba(255,70,85,0.5);
+}
+.sidebar.expanded {
+  width: 250px;
+  align-items: flex-start;
+  padding-left: 12px;
+}
+.sidebar a {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 12px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: 0.3s;
+  z-index: 2000;
+}
+.sidebar a:hover {
+  background: rgba(255,70,85,0.25);
+  color: var(--red);
+  border-radius: 12px;
+  box-shadow: 0 0 20px var(--red);
+}
+.sidebar img {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 6px var(--red));
+}
+.toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: -25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--red);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 3001;
+  box-shadow: 0 0 20px var(--red);
+}
+
+
+header {
+  position: fixed;
+  top: 20px;
+  left: 60px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--red);
+  text-shadow: 0 0 10px var(--red), 0 0 30px var(--red);
+  z-index: 2500;
+  transition: left 0.3s ease;
+}
+body.sidebar-expanded header {
+  left: 250px;
+}
+
+
+.main-content {
+  margin-top: 100px;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 60px;
+  transition: margin-left 0.3s ease;
+}
+body.sidebar-expanded .main-content {
+  margin-left: 250px;
+}
+
+
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1400px;
+}
+.agent-card {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255,70,85,0.5);
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 200px;
+}
+.agent-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255,70,85,0.7);
+}
+.agent-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 15px;
+}
+
+.agent-card .skills {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(26, 31, 46, 0.95);
+  color: var(--light);
+  padding: 12px;
+  font-size: 1rem;
+  max-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease, max-height 0.4s ease;
+}
+.agent-card:hover .skills {
+  max-height: 150px;
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+.agent-card .skills::-webkit-scrollbar {
+  width: 8px;
+}
+.agent-card .skills::-webkit-scrollbar-track {
+  background: rgba(255, 70, 85, 0.1);
+  border-radius: 4px;
+}
+.agent-card .skills::-webkit-scrollbar-thumb {
+  background: var(--red);
+  border-radius: 4px;
+  box-shadow: 0 0 5px var(--red);
+}
+.agent-card .skills::-webkit-scrollbar-thumb:hover {
+  background: #ff6570;
+}
+
+
+#agentPopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+.popup-content {
+  background: var(--dark);
+  color: var(--light);
+  padding: 20px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 30px var(--red);
+}
+.popup-content img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+.popup-content h2 {
+  margin-top: 0;
+  color: var(--red);
+}
+.popup-content .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: var(--light);
+  transition: 0.2s;
+}
+.popup-content .close-btn:hover {
+  color: var(--red);
+}
+
+
+footer {
+  width: 100%;
+  background: #000;
+  color: var(--light);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  box-sizing: border-box;
+}
+footer div {
+  margin: 5px 0;
+}
+</style>
+</head>
+
+<body>
+
+
+<div id="mySidebar" class="sidebar">
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+  <a href="weapons.html"><img src="assets/weapons icon.webp"> Weapons</a>
+  <a href="agents.html"><img src="assets/agents logo button.png"> Agents</a>
+  <a href="maps.html"><img src="assets/maps icon.webp"> Maps</a>
+  <a href="skins.html"><img src="assets/skins icon.webp"> Skins</a>
+</div>
+
+
+<header>SpikeSense</header>
+
+
+<div class="main-content">
+  <h2>Valorant Agents</h2>
+  <div class="agents-grid">
+
+
+    <div class="agent-card" onclick="openPopup('Brimstone','Incendiary, Sky Smoke, Stim Beacon, Orbital Strike','assets/brimstone.webp')"><img src="assets/brimstone.webp" alt="Brimstone"><div class="skills">Incendiary, Sky Smoke, Stim Beacon, Orbital Strike</div></div>
+    <div class="agent-card" onclick="openPopup('Viper','Snake Bite, Poison Cloud, Toxic Screen, Viper’s Pit','assets/viper.webp')"><img src="assets/viper.webp" alt="Viper"><div class="skills">Snake Bite, Poison Cloud, Toxic Screen, Viper’s Pit</div></div>
+    <div class="agent-card" onclick="openPopup('Omen','Shrouded Step, Paranoia, Dark Cover, From the Shadows','assets/omen.webp')"><img src="assets/omen.webp" alt="Omen"><div class="skills">Shrouded Step, Paranoia, Dark Cover, From the Shadows</div></div>
+    <div class="agent-card" onclick="openPopup('Killjoy','Alarmbot, Turret, Nanoswarm, Lockdown','assets/killjoy.webp')"><img src="assets/killjoy.webp" alt="Killjoy"><div class="skills">Alarmbot, Turret, Nanoswarm, Lockdown</div></div>
+    <div class="agent-card" onclick="openPopup('Cypher','Trapwire, Cyber Cage, Spycam, Neural Theft','assets/cypher.webp')"><img src="assets/cypher.webp" alt="Cypher"><div class="skills">Trapwire, Cyber Cage, Spycam, Neural Theft</div></div>
+    <div class="agent-card" onclick="openPopup('Sova','Recon Bolt, Shock Bolt, Owl Drone, Hunter’s Fury','assets/sova.webp')"><img src="assets/sova.webp" alt="Sova"><div class="skills">Recon Bolt, Shock Bolt, Owl Drone, Hunter’s Fury</div></div>
+    <div class="agent-card" onclick="openPopup('Sage','Slow Orb, Healing Orb, Barrier Orb, Resurrection','assets/sage.webp')"><img src="assets/sage.webp" alt="Sage"><div class="skills">Slow Orb, Healing Orb, Barrier Orb, Resurrection</div></div>
+    <div class="agent-card" onclick="openPopup('Phoenix','Curveball, Blaze, Hot Hands, Run It Back','assets/phoenix.webp')"><img src="assets/phoenix.webp" alt="Phoenix"><div class="skills">Curveball, Blaze, Hot Hands, Run It Back</div></div>
+    <div class="agent-card" onclick="openPopup('Jett','Cloudburst, Updraft, Tailwind, Blade Storm','assets/jett.webp')"><img src="assets/jett.webp" alt="Jett"><div class="skills">Cloudburst, Updraft, Tailwind, Blade Storm</div></div>
+    <div class="agent-card" onclick="openPopup('Reyna','Leer, Devour, Dismiss, Empress','assets/reyna.webp')"><img src="assets/reyna.webp" alt="Reyna"><div class="skills">Leer, Devour, Dismiss, Empress</div></div>
+    <div class="agent-card" onclick="openPopup('Raze','Boom Bot, Blast Pack, Paint Shells, Showstopper','assets/raze.webp')"><img src="assets/raze.webp" alt="Raze"><div class="skills">Boom Bot, Blast Pack, Paint Shells, Showstopper</div></div>
+    <div class="agent-card" onclick="openPopup('Skye','Trailblazer, Guiding Light, Regrowth, Seekers','assets/skye.webp')"><img src="assets/skye.webp" alt="Skye"><div class="skills">Trailblazer, Guiding Light, Regrowth, Seekers</div></div>
+    <div class="agent-card" onclick="openPopup('Astra','Gravity Well, Nova Pulse, Nebula, Cosmic Divide','assets/astra.webp')"><img src="assets/astra.webp" alt="Astra"><div class="skills">Gravity Well, Nova Pulse, Nebula, Cosmic Divide</div></div>
+    <div class="agent-card" onclick="openPopup('Yoru','Fakeout, Gatecrash, Blindside, Dimensional Drift','assets/yoru.webp')"> <img src="assets/yoru.webp" alt="Yoru"> <div class="skills">Fakeout, Gatecrash, Blindside, Dimensional Drift</div></div>
+    <div class="agent-card" onclick="openPopup('KAY/O','FRAG/MENT, FLASH/DRIVE, ZERO/POINT, NULL/CMD','assets/kayo.webp')"><img src="assets/kayo.webp" alt="KAY/O"><div class="skills">FRAG/MENT, FLASH/DRIVE, ZERO/POINT, NULL/CMD</div></div>
+    <div class="agent-card" onclick="openPopup('Chamber','Trademark, Headhunter, Rendezvous, Tour De Force','assets/chamber.webp')"><img src="assets/chamber.webp" alt="Chamber"><div class="skills">Trademark, Headhunter, Rendezvous, Tour De Force</div></div>
+    <div class="agent-card" onclick="openPopup('Neon','High Gear, Relay Bolt, Fast Lane, Overdrive','assets/neon.webp')"><img src="assets/neon.webp" alt="Neon"><div class="skills">High Gear, Relay Bolt, Fast Lane, Overdrive</div></div>
+    <div class="agent-card" onclick="openPopup('Fade','Prey, Seize, Haunt, Nightfall','assets/fade.webp')"><img src="assets/fade.webp" alt="Fade"><div class="skills">Prey, Seize, Haunt, Nightfall</div></div>
+    <div class="agent-card" onclick="openPopup('Harbor','Cascade, Cove, High Tide, Reckoning','assets/harbor.webp')"><img src="assets/harbor.webp" alt="Harbor"><div class="skills">Cascade, Cove, High Tide, Reckoning</div></div>
+    <div class="agent-card" onclick="openPopup('Gekko','Wingman, Dizzy, Mosh Pit, Thrash','assets/gekko.webp')"><img src="assets/gekko.webp" alt="Gekko"><div class="skills">Wingman, Dizzy, Mosh Pit, Thrash</div></div>
+    <div class="agent-card" onclick="openPopup('Deadlock','Sonic Sensor, Razorwire, Annihilation, Spike Rush','assets/deadlock.webp')"><img src="assets/deadlock.webp" alt="Deadlock"><div class="skills">Sonic Sensor, Razorwire, Annihilation, Spike Rush</div></div>
+    <div class="agent-card" onclick="openPopup('Iso','Double Tap, Shell, Flash Point, Detonate','assets/iso.webp')"><img src="assets/iso.webp" alt="Iso"><div class="skills">Double Tap, Shell, Flash Point, Detonate</div></div>
+    <div class="agent-card" onclick="openPopup('Clove','Meddle, Pick Me Up, Smoke Screen, Revival','assets/clove.webp')"><img src="assets/clove.webp" alt="Clove"><div class="skills">Meddle, Pick Me Up, Smoke Screen, Revival</div></div>
+    <div class="agent-card" onclick="openPopup('Vyse','Liquid Wall, Metal Shield, Arc Rose, Rift Surge','assets/vyse.webp')"><img src="assets/vyse.webp" alt="Vyse"><div class="skills">Liquid Wall, Metal Shield, Arc Rose, Rift Surge</div></div>
+    <div class="agent-card" onclick="openPopup('Tejo','Echo Trap, Tremor, Shredder, Beast Mode','assets/tejo.webp')"><img src="assets/tejo.webp" alt="Tejo"><div class="skills">Echo Trap, Tremor, Shredder, Beast Mode</div></div>
+    <div class="agent-card" onclick="openPopup('Waylay','Ambush, Flare, Creep, Prowl','assets/waylay.webp')"><img src="assets/waylay.webp" alt="Waylay"><div class="skills">Ambush, Flare, Creep, Prowl</div></div>
+    <div class="agent-card" onclick="openPopup('Veto','Nether Trap, Slow Field, Reverse Spike, Mutagen','assets/veto.webp')"><img src="assets/veto.webp" alt="Veto"><div class="skills">Nether Trap, Slow Field, Reverse Spike, Mutagen</div></div>
+
+  </div>
+</div>
+
+
+<div id="agentPopup">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">×</span>
+    <img id="popupImage" src="" alt="Agent Image">
+    <h2 id="popupName"></h2>
+    <p id="popupSkills"></p>
+  </div>
+</div>
+
+<script>
+function toggleSidebar() {
+  document.getElementById("mySidebar").classList.toggle("expanded");
+  document.body.classList.toggle("sidebar-expanded");
+}
+
+function openPopup(name, skills, imageSrc) {
+  document.getElementById('popupName').innerText = name;
+  document.getElementById('popupSkills').innerText = skills;
+  document.getElementById('popupImage').src = imageSrc;
+  document.getElementById('agentPopup').style.display = 'flex';
+}
+
+function closePopup() {
+  document.getElementById('agentPopup').style.display = 'none';
+}
+</script>
+
+</body>
+</html>
