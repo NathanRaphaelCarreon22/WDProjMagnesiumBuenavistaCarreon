@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpikeSense | Sources</title>
+
+<style>
+:root{
+  --red:#ff4655;
+  --dark:#0f1923;
+  --panel:#0b1622;
+}
+
+body{
+  margin:0;
+  font-family:'Segoe UI',Arial,sans-serif;
+  background:linear-gradient(135deg,#0b0f1a,#1a1f2e);
+  color:white;
+  overflow-x:hidden;
+  transition:margin-left .3s ease;
+}
+
+body.sidebar-expanded{
+  margin-left:250px;
+}
+
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:60px;
+  background:rgba(26,31,46,.96);
+  padding-top:80px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transition:width .3s;
+  z-index:2000;
+  box-shadow:2px 0 25px rgba(255,70,85,.5);
+}
+
+.sidebar.expanded{
+  width:250px;
+  align-items:flex-start;
+  padding-left:12px;
+}
+
+.sidebar a{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:15px 12px;
+  color:white;
+  text-decoration:none;
+  font-size:1.2rem;
+  transition:.3s;
+}
+
+.sidebar a:hover{
+  background:rgba(255,70,85,.25);
+  color:var(--red);
+  border-radius:12px;
+  box-shadow:0 0 20px var(--red);
+}
+
+.sidebar img{
+  width:28px;
+  height:28px;
+  filter:drop-shadow(0 0 6px var(--red));
+}
+
+.toggle-btn{
+  position:absolute;
+  top:20px;
+  right:-25px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:var(--red);
+  color:white;
+  border:none;
+  font-size:1.5rem;
+  cursor:pointer;
+  box-shadow:0 0 20px var(--red);
+}
+
+
+header{
+  position:fixed;
+  top:20px;
+  left:60px;
+  font-size:2.5rem;
+  font-weight:bold;
+  color:var(--red);
+  text-shadow:0 0 10px var(--red),0 0 30px var(--red);
+  transition:left .3s;
+  z-index:1000;
+}
+
+body.sidebar-expanded header{
+  left:250px;
+}
+
+
+.page-wrapper{
+  margin-left:60px;
+  transition:margin-left .3s;
+}
+
+body.sidebar-expanded .page-wrapper{
+  margin-left:250px;
+}
+
+.page{
+  min-height:100vh;
+  max-width:1200px;
+  margin:0 auto;
+  padding-top:120px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.title{
+  font-size:56px;
+  letter-spacing:4px;
+  color:var(--red);
+  text-shadow:0 0 25px rgba(255,70,85,.4);
+}
+
+.container{
+  width:90%;
+  background:#0f196e;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:40px;
+  padding:30px;
+  border-radius:12px;
+}
+
+.source{
+  background:#0c1233;
+  width:300px;
+  min-height:420px;
+  border-radius:10px;
+  padding:20px;
+}
+
+.source h1{
+  color:var(--red);
+  font-size:32px;
+}
+
+.source a{
+  color:white;
+  text-decoration:none;
+}
+
+.source a:hover{
+  color:var(--red);
+}
+
+@media(max-width:768px){
+  header{font-size:2rem}
+  .container{flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+
+<div id="mySidebar" class="sidebar">
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+  <a href="index.html">Home</a>
+  <a href="public/weapons.html">Weapons</a>
+  <a href="public/agents.html">Agents</a>
+  <a href="public/maps.html">Maps</a>
+  <a href="public/skins.html">Sources</a>
+</div>
+
+<header>SpikeSense</header>
+
+<div class="page-wrapper">
+  <div class="page">
+    <h1 class="title">SOURCES</h1>
+
+    <div class="container">
+      <div class="source">
+        <h1>ASSETS</h1>
+        <p>
+          <a href="https://fontmeme.com/fonts/valorant-font/">VALORANT FONT</a><br><br>
+          <a href="https://valorant.fandom.com/wiki/Maps">MAP IMAGES</a><br><br>
+          <a href="https://valorant.fandom.com/wiki/Weapons">GUN IMAGES</a><br><br>
+          <a href="https://valorant.fandom.com/wiki/Agents">AGENT IMAGES</a>
+        </p>
+      </div>
+
+      <div class="source">
+        <h1>INFORMATION</h1>
+        <p>
+          <a href="https://playvalorant.com/">OFFICIAL VALORANT</a><br><br>
+          <a href="https://valorant.fandom.com/wiki/VALORANT_Wiki">VALORANT WIKI</a><br><br>
+          <a href="https://valorant.fandom.com/wiki/Weapons">WIKI – WEAPONS</a><br><br>
+          <a href="https://valorant.fandom.com/wiki/Agents">WIKI – AGENTS</a>
+        </p>
+      </div>
+
+      <div class="source">
+        <h1>CODE</h1>
+        <p>
+          <a href="https://www.youtube.com/watch?v=r_PL0K2fGkY">POP-UP</a><br><br>
+          <a href="https://www.youtube.com/watch?v=Qtggx2rswKY">PULSE</a><br><br>
+          <a href="https://www.youtube.com/watch?v=HL13UHsEe28">AIM TRAINER</a><br><br>
+          <a href="https://www.youtube.com/watch?v=6hOUCZadAoQ">SIDEBAR</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleSidebar(){
+  document.getElementById("mySidebar").classList.toggle("expanded");
+  document.body.classList.toggle("sidebar-expanded");
+}
+</script>
+
+</body>
+</html>
