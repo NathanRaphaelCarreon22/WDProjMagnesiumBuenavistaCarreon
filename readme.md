@@ -23,6 +23,21 @@ P3 (Maps) - Images and layout of the maps in Valorant arranged in rows and colum
 
 P4 (Sources) - Collection of all links and citations of all the assets and text used.
 
+P5 (Preferences)  - In this page, user will select their preffered Agent role, weapon type, and budget range, all in a box in the middle. HTML forms will be used here. buttons for Agent role, checkboxes for weapon type, dropdown or slider for budget range.
+
+P6 (Reccomended Weapons) - Shows reccomended weapons and the best ones to buy for the budget range. In a grid pattern from most expensive to least expensive.
+
+P7 (Reccomended Agents) - Shows reccomended Agents for the selected role, displaying image cards for agents in a grid.
+
+---
+
+
+<font size="4"> How HTML form will be used </font> \
+Page 5: To pick agent role, radio buttons will be used. Checkboxes for weapon type, and select element for budget range. 
+
+Data will be saved using "submit" form tag, a button that will call to a js script that will save the selected elements' values using localStorage. \
+Using localStorage.getItem, we can get the saved variables from the Preference page and their values.
+
 ---
 
 <font size="4"> How JS will be applied: </font> \
@@ -33,16 +48,22 @@ Page 3: Zoom-in feature when hovering over certain parts of the images of the ma
 All Pages: When scrolling past the content, footer will pop out, showing sources. 
 ---
 Homepage: \
-![alt](./assets/1.png)
+![alt](public/assets/1.png)
 
 First Page:\
-![alt](./assets/2.png)
+![alt](public/assets/2.png)
 
 Second Page:\
-![alt](./assets/3.png)
+![alt](public/assets/3.png)
 
 Third Page:\
-![alt](./assets/4.png)
+![alt](public/assets/4.png)
 
 Fourth Page:\
-![alt](./assets/5.png)
+![alt](public/assets/5.png)
+
+Fifth Page:\
+![alt](public/assets/6.png)
+
+Fifth Page:\
+![alt](public/assets/7.png)
