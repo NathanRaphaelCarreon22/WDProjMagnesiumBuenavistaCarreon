@@ -65,5 +65,8 @@ Fourth Page:\
 Fifth Page:\
 ![alt](public/assets/6.png)
 
-Fifth Page:\
+Sixth Page:\
 ![alt](public/assets/7.png)
+
+Seventh Page:\
+![alt](public/assets/8.png)
