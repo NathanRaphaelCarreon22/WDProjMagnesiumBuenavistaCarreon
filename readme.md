@@ -4,7 +4,7 @@
 ## A comprehensive guide for Valorant
 ---
 Logo: \
-![alt](./assets/logo.png)
+![alt](public/assets/logo.png)
 
 ---
 <font size="4"> Description: </font>
