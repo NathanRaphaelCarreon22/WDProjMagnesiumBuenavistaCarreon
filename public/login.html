@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpikeSense | Signup</title>
+
+<style>
+    :root {
+        --red: #ff4655;
+        --dark: #0f1923;
+        --light: #fff;
+        --grey: #cf1616ab;
+    }
+    body {
+        margin:0;
+        font-family:'Segoe UI',Arial,sans-serif;
+        background:radial-gradient(circle at top,#142850,var(--dark));
+        color:white;
+        display:flex;
+        justify-content: center;
+        align-items: center;  
+        transition:margin-left .3s;
+        overflow-x:hidden;
+        height: 100vh;
+    }
+    form {
+        display: flex;
+        gap: 50px;
+        padding: 30px 30px;
+        height: 80vh;
+        width: 90vw;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        position: relative;
+
+        background-color: #121b2b;
+        border: 2px solid var(--red);
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(255, 70, 85, 0.6);
+    }
+
+    fieldset {
+        flex-grow: 1;
+        padding: 16px 16px 32px;
+        width: 500px;
+
+
+        border: 2px solid var(--grey);
+        background-color: #0d2764;
+        flex-direction: column;
+    }
+    legend {
+        text-align: center;
+    }
+    @keyframes valorantPulse {
+        0% { box-shadow: 0 0 0 0 rgba(255, 70, 85, 0.7); }
+        70% { box-shadow: 0 0 0 8px rgba(255, 70, 85, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 70, 85, 0); }
+    }
+
+    label:focus-within {
+        border-color: #ff4655;
+        animation: valorantPulse 0.6s ease-out;
+    }
+</style>
+<body>
+    <form action="/signup" method="post" name="form">
+        <div>
+            <fieldset>
+                <legend>SIGNUP</legend>
+                    <label>
+                        Username:
+                        <input type="text" name="username" id="username" required>
+                    </label> <br> <br>
+                    <label>
+                        Password:   
+                        <input type="password" name="password" id="password" required> 
+                    </label>
+            </fieldset>
+        </div>
+        <div>
+            <fieldset>
+                <legend>PLEASE SELECT AGENT ROLE</legend>
+                <label>
+                    <input type="radio" class="agentRole" name="agentRole" value="Duelist" required>
+                    Duelist
+                </label> <br>
+                <label>
+                    <input type="radio" class="agentRole" name="agentRole" value="Initiator">
+                    Initiator
+                </label> <br>
+                <label>
+                    <input type="radio" class="agentRole" name="agentRole" value="Controller">
+                    Controller
+                </label> <br>
+                <label>
+                    <input type="radio" class="agentRole" name="agentRole" value="Sentinel">
+                    Sentinel
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>PLEASE SELECT WEAPON TYPE</legend>
+                <label>
+                    <input type="checkbox" class="weaponType" name="weaponType" value="SMGS">
+                    SMGS
+                </label> <br>
+                <label>
+                    <input type="checkbox" class="weaponType" name="weaponType" value="Rifles">
+                    Rifles
+                </label> <br>
+                <label>
+                    <input type="checkbox" class="weaponType" name="weaponType" value="Shotguns">
+                    Shotguns
+                </label> <br>
+                <label>
+                    <input type="checkbox" class="weaponType" name="weaponType" value="Scout">
+                    Scout
+                </label> <br>
+                <label>
+                    <input type="checkbox" class="weaponType" name="weaponType" value="Machine Guns">
+                    Machine Guns
+                </label>
+            </fieldset>
+
+            <fieldset>
+                <legend>PLEASE SELECT BUDGET RANGE</legend>
+                <select class="budgetRange" required>
+                    <option value ="a"> A </option>
+                    <option value ="b"> B </option>
+                    <option value ="c"> C </option>
+                    <option value ="d"> D </option>
+                </select>
+            </fieldset>
+        </div>
+
+        <button type="submit"> SUBMIT </button>
+    </form>
+</body>
+
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const playerUsername = document.getElementById('username').value;
+        const playerPassword = document.getElementById('password').value;
+        const agentRole = document.querySelector('input[name="agentRole"]:checked').value;
+        const weaponTypes = Array.from(document.querySelectorAll('input[name="weaponType"]:checked')).map(checkbox => checkbox.value);
+        const budgetRange = document.querySelector('.budgetRange').value;
+
+        const playerData = {
+            username: playerUsername,
+            password: playerPassword,
+            agentRole: agentRole,
+            weaponTypes: weaponTypes,
+            budgetRange: budgetRange
+        };
+
+        localStorage.setItem('playerData', JSON.stringify(playerData));
+        alert('Signup successful! Your preferences have been saved.');
+    });
+</script>
+
