@@ -1,0 +1,524 @@
+<style>
+    :root {
+        --red: #ff4655;
+        --dark: #0f1923;
+        --light: #fff;
+        --grey: #cf1616ab;
+    }
+    body {
+        margin:0;
+        font-family:'Segoe UI',Arial,sans-serif;
+        background:radial-gradient(circle at top,#142850,var(--dark));
+        color:white;
+        display:flex;
+        justify-content: center;
+        align-items: center;  
+        transition:margin-left .3s;
+        overflow-x:hidden;
+        height: 100vh;
+    }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 60px;
+        background: rgba(26, 31, 46, 0.96);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 80px;
+        transition: width 0.3s ease;
+        z-index: 3000;
+        box-shadow: 2px 0 25px rgba(255,70,85,0.5);
+    }
+    .sidebar.expanded {
+        width: 250px;
+        align-items: flex-start;
+        padding-left: 12px;
+    }
+    .sidebar a {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 12px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: 0.3s;
+        z-index: 2000;
+    }
+    .sidebar a:hover {
+        background: rgba(255,70,85,0.25);
+        color: var(--red);
+        border-radius: 12px;
+        box-shadow: 0 0 20px var(--red);
+    }
+    .sidebar img {
+        width: 28px;
+        height: 28px;
+        filter: drop-shadow(0 0 6px var(--red));
+    }
+    .toggle-btn {
+        position: absolute;
+        top: 20px;
+        right: -25px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--red);
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 3001;
+        box-shadow: 0 0 20px var(--red);
+    }
+
+
+    header {
+        position: fixed;
+        top: 20px;
+        left: 60px;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: var(--red);
+        text-shadow: 0 0 10px var(--red), 0 0 30px var(--red);
+        z-index: 2500;
+        transition: left 0.3s ease;
+    }
+
+    body.sidebar-expanded header {
+        left: 250px;
+    }
+    .main-content {
+        margin-top: 100px;
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 60px;
+        transition: margin-left 0.3s ease;
+    }
+    body.sidebar-expanded .main-content {
+        margin-left: 250px;
+    }
+
+    .page {
+        padding: 30px 30px;
+        height: 80vh;
+        width: 90vw;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        position: relative;
+
+        background-color: #121b2b;
+        border: 2px solid var(--red);
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(255, 70, 85, 0.6);
+    }
+    .pistols {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    opacity: 0;
+    pointer-events: none;
+    }
+    .smgs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    opacity: 0;
+    pointer-events: none;
+    }
+    .rifles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    opacity: 0;
+    pointer-events: none;
+    }
+    .snipers {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    opacity: 0;
+    pointer-events: none;
+    }
+    .shotguns {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    opacity: 0;
+    pointer-events: none;
+    }
+    .lmgs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    opacity: 0;
+    pointer-events: none;
+    }
+
+    .pistols.active, .smgs.active, .rifles.active, .snipers.active, .lmgs.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .weapon-box {
+        background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 18px;
+        padding: 30px 20px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.25s;
+    }
+
+    .weapon-box:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 35px rgba(255,70,85,0.45);
+    }
+
+    .weapon-img {
+        width: 130px;
+        margin-bottom: 12px;
+    }
+
+
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.65);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.25s;
+        z-index: 900;
+    }
+
+    .overlay.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 450px;
+        background: var(--panel);
+        border: 2px solid var(--red);
+        border-radius: 18px;
+        padding: 28px;
+        text-align: center;
+        box-shadow: 0 0 55px rgba(255,70,85,0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.25s;
+        z-index: 1000;
+    }
+
+    .popup.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .popup img {
+        width: 70%;
+    }
+
+    .popup h2 {
+        color: var(--red);
+    }
+
+    .stat {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .bar {
+        height: 8px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--red), #ff7b84);
+    }
+
+    .close-btn {
+        margin-top: 14px;
+        padding: 8px 14px;
+        border: none;
+        background: var(--red);
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    </style>
+
+
+
+
+
+<body>
+    <div class="page-wrapper">
+            <div id="mySidebar" class="sidebar">
+                <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+                <a href="../index.html"> Home</a>
+                <a href="weapons.html"> Weapons</a>
+                <a href="maps.html"> Maps</a>
+                <a href="sources.html"> Sources</a>
+                <a href="reccoAgents.html"> Recommended Agents</a>
+                <a href="login.html"> Login</a>
+            </div>
+        <div class="page">
+            <h1>Recommended Weapons</h1>
+            <p>Based on your selected weapon type, we recommend the following weapons for you:</p>
+            <div class="pistols">
+                <div class="weapon-box" onclick="openPopup('classic')"><img src="assets/classic.webp" class="weapon-img">CLASSIC</div>
+                <div class="weapon-box" onclick="openPopup('shorty')"><img src="assets/shorty.webp" class="weapon-img">SHORTY</div>
+                <div class="weapon-box" onclick="openPopup('ghost')"><img src="assets/ghost.webp" class="weapon-img">GHOST</div>
+                <div class="weapon-box" onclick="openPopup('sheriff')"><img src="assets/sherrif.webp" class="weapon-img">SHERIFF</div>
+                <div class="weapon-box" onclick="openPopup('frenzy')"><img src="assets/frenzy.webp" class="weapon-img">FRENZY</div>
+            </div>
+            <div class="smgs">
+                <div class="weapon-box" onclick="openPopup('stinger')"><img src="assets/stinger.webp" class="weapon-img">STINGER</div>
+                <div class="weapon-box" onclick="openPopup('spectre')"><img src="assets/spectre.webp" class="weapon-img">SPECTRE</div>
+            </div>
+            <div class="rifles">
+                <div class="weapon-box" onclick="openPopup('bulldog')"><img src="assets/bulldog.webp" class="weapon-img">BULLDOG</div>
+                <div class="weapon-box" onclick="openPopup('guardian')"><img src="assets/guardian.webp" class="weapon-img">GUARDIAN</div>
+                <div class="weapon-box" onclick="openPopup('phantom')"><img src="assets/phantom.webp" class="weapon-img">PHANTOM</div>
+                <div class="weapon-box" onclick="openPopup('vandal')"><img src="assets/vandal.webp" class="weapon-img">VANDAL</div>
+            </div>
+            <div class="snipers">
+                <div class="weapon-box" onclick="openPopup('marshal')"><img src="assets/marshal.webp" class="weapon-img">MARSHAL</div>
+                <div class="weapon-box" onclick="openPopup('operator')"><img src="assets/operator.webp" class="weapon-img">OPERATOR</div>
+                <div class="weapon-box" onclick="openPopup('outlaw')"><img src="assets/outlaw.webp" class="weapon-img">OUTLAW</div>
+            </div>
+            <div class="shotguns">
+                <div class="weapon-box" onclick="openPopup('bucky')"><img src="assets/bucky.webp" class="weapon-img">BUCKY</div>
+                <div class="weapon-box" onclick="openPopup('judge')"><img src="assets/judge.webp" class="weapon-img">JUDGE</div>
+            </div>
+            <div class="lmgs">
+                <div class="weapon-box" onclick="openPopup('ares')"><img src="assets/ares.webp" class="weapon-img">ARES</div>
+                <div class="weapon-box" onclick="openPopup('odin')"><img src="assets/odin.webp" class="weapon-img">ODIN</div>
+            </div>
+
+            <div class="overlay" onclick="closePopup()"></div>
+                    <div class="popup" id="classic">
+                    <img src="assets/classic.webp"><h2>CLASSIC</h2><p>Standard sidearm, reliable and versatile.</p>
+                    <div class="stat"><span>DAMAGE <b>55</b></span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+                    <div class="popup" id="shorty">
+                    <img src="assets/shorty.webp"><h2>SHORTY</h2><p>Close-range shotgun.</p>
+                    <div class="stat"><span>DAMAGE <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>55</b></span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>20</b></span><div class="bar"><div class="fill" style="width:20%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="frenzy">
+                    <img src="assets/frenzy.webp"><h2>FRENZY</h2><p>High fire-rate pistol.</p>
+                    <div class="stat"><span>DAMAGE <b>45</b></span><div class="bar"><div class="fill" style="width:45%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>40</b></span><div class="bar"><div class="fill" style="width:40%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="ghost">
+                    <img src="assets/ghost.webp"><h2>GHOST</h2><p>Silenced precision pistol.</p>
+                    <div class="stat"><span>DAMAGE <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="sheriff">
+                    <img src="assets/sherrif.webp"><h2>SHERIFF</h2><p>High damage revolver, deadly in skilled hands.</p>
+                    <div class="stat"><span>DAMAGE <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>40</b></span><div class="bar"><div class="fill" style="width:40%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="stinger">
+                    <img src="assets/stinger.webp"><h2>STINGER</h2><p>SMG with high rate of fire, deadly at close range.</p>
+                    <div class="stat"><span>DAMAGE <b>55</b></span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>45</b></span><div class="bar"><div class="fill" style="width:45%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="spectre">
+                    <img src="assets/spectre.webp"><h2>SPECTRE</h2><p>Versatile SMG with decent range and accuracy.</p>
+                    <div class="stat"><span>DAMAGE <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="bulldog">
+                    <img src="assets/bulldog.webp"><h2>BULLDOG</h2><p>Automatic rifle, balanced for mid-range combat.</p>
+                    <div class="stat"><span>DAMAGE <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="guardian">
+                    <img src="assets/guardian.webp"><h2>GUARDIAN</h2><p>Semi-automatic rifle, high damage with precision shots.</p>
+                    <div class="stat"><span>DAMAGE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="phantom">
+                    <img src="assets/phantom.webp"><h2>PHANTOM</h2><p>Automatic rifle, stealthy with moderate recoil.</p>
+                    <div class="stat"><span>DAMAGE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>70</b></span><div class="bar"><div class="fill" style="width:70%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="vandal">
+                    <img src="assets/vandal.webp"><h2>VANDAL</h2><p>Automatic rifle, high damage, effective at all ranges.</p>
+                    <div class="stat"><span>DAMAGE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="marshal">
+                    <img src="assets/marshal.webp"><h2>MARSHAL</h2><p>Light sniper rifle, fast and accurate.</p>
+                    <div class="stat"><span>DAMAGE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>40</b></span><div class="bar"><div class="fill" style="width:40%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="outlaw">
+                    <img src="assets/outlaw.webp"><h2>OUTLAW</h2><p>Semi-auto sniper, high damage and precise.</p>
+                    <div class="stat"><span>DAMAGE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>35</b></span><div class="bar"><div class="fill" style="width:35%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="operator">
+                    <img src="assets/operator.webp"><h2>OPERATOR</h2><p>Powerful sniper rifle capable of one-shot kills.</p>
+                    <div class="stat"><span>DAMAGE <b>120</b></span><div class="bar"><div class="fill" style="width:100%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>30</b></span><div class="bar"><div class="fill" style="width:30%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>95</b></span><div class="bar"><div class="fill" style="width:95%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>100</b></span><div class="bar"><div class="fill" style="width:100%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="bucky">
+                    <img src="assets/bucky.webp"><h2>BUCKY</h2><p>Close-range shotgun, deadly in tight spaces.</p>
+                    <div class="stat"><span>DAMAGE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>25</b></span><div class="bar"><div class="fill" style="width:25%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="judge">
+                    <img src="assets/judge.webp"><h2>JUDGE</h2><p>Fully automatic shotgun, lethal in close quarters.</p>
+                    <div class="stat"><span>DAMAGE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>50</b></span><div class="bar"><div class="fill" style="width:50%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>30</b></span><div class="bar"><div class="fill" style="width:30%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="ares">
+                    <img src="assets/ares.webp"><h2>ARES</h2><p>Light machine gun with high rate of fire.</p>
+                    <div class="stat"><span>DAMAGE <b>65</b></span><div class="bar"><div class="fill" style="width:65%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>85</b></span><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>55</b></span><div class="bar"><div class="fill" style="width:55%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+
+                    <div class="popup" id="odin">
+                    <img src="assets/odin.webp"><h2>ODIN</h2><p>Heavy machine gun with massive damage.</p>
+                    <div class="stat"><span>DAMAGE <b>90</b></span><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+                    <div class="stat"><span>FIRE RATE <b>75</b></span><div class="bar"><div class="fill" style="width:75%"></div></div></div>
+                    <div class="stat"><span>ACCURACY <b>60</b></span><div class="bar"><div class="fill" style="width:60%"></div></div></div>
+                    <div class="stat"><span>RANGE <b>80</b></span><div class="bar"><div class="fill" style="width:80%"></div></div></div>
+                    <button class="close-btn" onclick="closePopup()">CLOSE</button>
+                    </div>
+            </div>
+            <p>These weapons are chosen based on their abilities and playstyle that complement your preferences. Feel free to try them out and see which one suits you best!</p>
+        </div>
+    </div>
+</body>
+
+<script>
+    const playerData = JSON.parse(localStorage.getItem("playerData"));
+    
+    if (playerData?.weaponTypes) {
+        const allTypes = ["pistols", "smgs", "rifles", "snipers", "shotguns", "lmgs"];
+        
+        allTypes.forEach(type => {
+            document.querySelector(`.${type}`).classList.remove("active");
+        });
+
+        playerData.weaponTypes.forEach(type => {
+            document.querySelector(`.${type}`).classList.add("active");
+        });
+    }
+    function toggleSidebar() {
+        document.getElementById("mySidebar").classList.toggle("expanded");
+        document.body.classList.toggle("sidebar-expanded");
+    }
+    function openPopup(id) {
+        document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+        document.querySelector('.overlay').classList.add('active');
+        document.getElementById(id).classList.add('active');
+    }
+
+    function closePopup() {
+        document.querySelectorAll('.popup').forEach(p => p.classList.remove('active'));
+        document.querySelector('.overlay').classList.remove('active');
+    }
+</script>
