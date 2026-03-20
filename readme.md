@@ -29,12 +29,14 @@ P6 (Reccomended Agents) - Shows reccomended Agents for the selected role, displa
 
 P7 (Sources) - Collection of all links and citations of all the assets and text used.
 
+P8 (Account Information) - Page that will display account information and allow the user to update their account information such as preferences and username, and allow them to delete their account. Will only be accesible when the user is logged into an account.
+
 ---
 
 
 <font size="4"> How HTML form will be used </font> \
 Page 5: To pick agent role, radio buttons will be used. Checkboxes for weapon type, and select element for budget range. 
-
+       
 Data will be saved using "submit" form tag, a button that will call to a js script that will save the selected elements' values using localStorage. \
 Using localStorage.getItem, we can get the saved variables from the Preference page and their values.
 
@@ -70,3 +72,6 @@ Sixth Page:\
 
 Seventh Page:\
 ![alt](public/assets/8.png)
+
+Eigth Page:\
+![alt](public/assets/10.png)
