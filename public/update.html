@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpikeSense | Account</title>
+
+<style>
+:root {
+    --red: #ff4655;
+    --dark: #0f1923;
+    --light: #fff;
+    --grey: #cf1616ab;
+}
+body {
+    margin:0;
+    font-family:'Segoe UI',Arial,sans-serif;
+    background:radial-gradient(circle at top,#142850,var(--dark));
+    color:white;
+    display:flex;
+    justify-content: center;
+    align-items: center;  
+    transition:margin-left .3s;
+    overflow-x:hidden;
+    height: 100vh;
+}
+form {
+    display: flex;
+    gap: 50px;
+    padding: 30px 30px;
+    height: 80vh;
+    width: 50vw;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    flex-direction: column;
+    background-color: #121b2b;
+    border: 2px solid var(--red);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 70, 85, 0.6);
+}
+fieldset {
+    flex-grow: 1;
+    padding: 16px 16px 32px;
+    width: 500px;
+    border: 2px solid var(--grey);
+    background-color: #0d2764;
+    flex-direction: column;
+}  
+legend {
+    text-align: center;
+}
+@keyframes valorantPulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 70, 85, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(255, 70, 85, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 70, 85, 0); }
+}
+
+label:focus-within {
+    border-color: #ff4655;
+    animation: valorantPulse 0.6s ease-out;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  height: 100%;
+  width: 250px;
+  background: rgba(26, 31, 46, 0.96);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  transition: width 0.3s ease;
+  z-index: 3000;
+  box-shadow: 2px 0 25px rgba(255,70,85,0.5);
+  transition: left 0.3s ease, box-shadow 0.3s ease;
+}
+.sidebar.expanded {
+  left: 0px;
+  width: 250px;
+  align-items: flex-start;
+  padding-left: 12px;
+}
+.sidebar a {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 12px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: 0.3s;
+  z-index: 2000;
+}
+.sidebar a:hover {
+  background: rgba(255,70,85,0.25);
+  color: var(--red);
+  border-radius: 12px;
+  box-shadow: 0 0 20px var(--red);
+}
+.sidebar img {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 0 6px var(--red));
+}
+.toggle-btn {
+  position: absolute;
+  top: 20px;
+  right: -60px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--red);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 3001;
+  box-shadow: 0 0 20px var(--red);
+}
+
+
+header {
+  position: fixed;
+  top: 20px;
+  left: 60px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--red);
+  text-shadow: 0 0 10px var(--red), 0 0 30px var(--red);
+  z-index: 2500;
+  transition: left 0.3s ease;
+}
+body.sidebar-expanded header {
+  left: 250px;
+}
+.delete {
+    display: flex;
+    border: 2px solid var(--grey);
+    background-color: #0d2764;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    flex-direction: column;
+    width: 250px;
+}
+</style>
+
+<body>
+    <div id="mySidebar" class="sidebar">
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+            <a href="../index.html"> Home</a>
+            <a href="weapons.html"> Weapons</a>
+            <a href="maps.html"> Maps</a>
+            <a href="sources.html"> Sources</a>
+            <a href="reccoAgents.html"> Recommended Agents</a>
+            <a href="reccoWeapons.html"> Recommended Weapons</a>
+            <a href="login.html"> Login</a>
+        </div>
+        <form action="/signup" method="post" name="form">
+            <h1> UPDATE YOUR PREFERENCES </h1>
+
+            <div>
+                <fieldset>
+                    <legend>PLEASE SELECT AGENT ROLE</legend>
+                    <label>
+                        <input type="radio" class="agentRole" name="agentRole" value="duelists" required>
+                        Duelist
+                    </label> <br>
+                    <label>
+                        <input type="radio" class="agentRole" name="agentRole" value="initiators">
+                        Initiator
+                    </label> <br>
+                    <label>
+                        <input type="radio" class="agentRole" name="agentRole" value="controllers">
+                        Controller
+                    </label> <br>
+                    <label>
+                        <input type="radio" class="agentRole" name="agentRole" value="sentinels">
+                        Sentinel
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <legend>PLEASE SELECT WEAPON TYPE</legend>
+                    <label>
+                        <input type="checkbox" class="weaponType" name="weaponType" value="smgs">
+                        SMGS
+                    </label> <br>
+                    <label>
+                        <input type="checkbox" class="weaponType" name="weaponType" value="rifles">
+                        Rifles
+                    </label> <br>
+                    <label>
+                        <input type="checkbox" class="weaponType" name="weaponType" value="shotguns">
+                        Shotguns
+                    </label> <br>
+                    <label>
+                        <input type="checkbox" class="weaponType" name="weaponType" value="pistols">
+                        Pistols
+                    </label> <br>
+                    <label>
+                        <input type="checkbox" class="weaponType" name="weaponType" value="lmgs">
+                        Machine Guns
+                    </label> <br>
+                    <label>
+                        <input type="checkbox" class="weaponType" name="weaponType" value="snipers">
+                        Snipers
+                    </label>
+                </fieldset>
+
+                <fieldset>
+                    <legend>PLEASE SELECT BUDGET RANGE</legend>
+                    <select class="budgetRange" required>
+                        <option value ="a"> A </option>
+                        <option value ="b"> B </option>
+                        <option value ="c"> C </option>
+                        <option value ="d"> D </option>
+                    </select>
+                </fieldset>
+            </div>
+
+            <button type="submit"> SAVE </button> <br>
+            <div class="delete">
+                <p style="font-size: large; color: #ff4655;"> Delete your Account? </p> <br>
+                <button type="button" id="delBtn">Clear Account</button>
+            </div>
+        </form>
+
+</body>
+
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let playerData = JSON.parse(localStorage.getItem("playerData"));
+
+        if (!playerData || Object.keys(playerData).length === 0) {
+            alert("No account yet");
+            window.location.href="login.html";
+            return;
+        }
+
+        const agentRole = document.querySelector('input[name="agentRole"]:checked').value;
+        const weaponTypes = Array.from(document.querySelectorAll('input[name="weaponType"]:checked')).map(checkbox => checkbox.value);
+        const budgetRange = document.querySelector('.budgetRange').value;
+
+        playerData = {
+            ...playerData,
+            agentRole: agentRole,
+            weaponTypes: weaponTypes,
+            budgetRange: budgetRange
+        };
+
+        localStorage.setItem('playerData', JSON.stringify(playerData));
+        alert('Update successful! Your preferences have been saved.');
+    });
+
+    document.getElementById("delBtn").addEventListener("click", () => {
+        localStorage.removeItem("playerData");
+        alert('Clear successful! Your account has been deleted.');
+        window.location.href = "login.html";
+    }); 
+
+    function toggleSidebar() {
+        document.getElementById("mySidebar").classList.toggle("expanded");
+        document.body.classList.toggle("sidebar-expanded");
+    }
+</script>

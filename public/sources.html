@@ -29,9 +29,9 @@ body.sidebar-expanded{
 .sidebar{
   position:fixed;
   top:0;
-  left:0;
+  left:-250px;
   height:100%;
-  width:60px;
+  width:250px;
   background:rgba(26,31,46,.96);
   padding-top:80px;
   display:flex;
@@ -40,9 +40,11 @@ body.sidebar-expanded{
   transition:width .3s;
   z-index:2000;
   box-shadow:2px 0 25px rgba(255,70,85,.5);
+  transition: left 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sidebar.expanded{
+  left: 0px;
   width:250px;
   align-items:flex-start;
   padding-left:12px;
@@ -76,7 +78,7 @@ body.sidebar-expanded{
 .toggle-btn{
   position:absolute;
   top:20px;
-  right:-25px;
+  right:-60px;
   width:50px;
   height:50px;
   border-radius:50%;
@@ -177,14 +179,14 @@ body.sidebar-expanded .page-wrapper{
 
 <div id="mySidebar" class="sidebar">
   <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
-  <a href="index.html">Home</a>
-  <a href="public/weapons.html">Weapons</a>
-  <a href="public/agents.html">Agents</a>
-  <a href="public/maps.html">Maps</a>
-  <a href="public/skins.html">Sources</a>
-  <a href="public/reccoAgents.html"> Recommended Agents</a>
-  <a href="public/reccoWeapons.html"> Recommended Weapons</a>
-  <a href="public/login.html"> Login</a>
+  <a href="../index.html">Home</a>
+  <a href="weapons.html">Weapons</a>
+  <a href="agents.html">Agents</a>
+  <a href="maps.html">Maps</a>
+  <a href="reccoAgents.html"> Recommended Agents</a>
+  <a href="reccoWeapons.html"> Recommended Weapons</a>
+  <a href="login.html"> Login</a>
+  <a href="update.html"> Account </a>
 </div>
 
 <header>SpikeSense</header>

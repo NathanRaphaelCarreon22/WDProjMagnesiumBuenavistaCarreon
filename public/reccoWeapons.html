@@ -20,9 +20,9 @@
     .sidebar {
         position: fixed;
         top: 0;
-        left: 0;
+        left: -250px;
         height: 100%;
-        width: 60px;
+        width: 250px;
         background: rgba(26, 31, 46, 0.96);
         display: flex;
         flex-direction: column;
@@ -31,8 +31,10 @@
         transition: width 0.3s ease;
         z-index: 3000;
         box-shadow: 2px 0 25px rgba(255,70,85,0.5);
+        transition: left 0.3s ease, box-shadow 0.3s ease;
     }
     .sidebar.expanded {
+        left: 0px;
         width: 250px;
         align-items: flex-start;
         padding-left: 12px;
@@ -52,8 +54,8 @@
     .sidebar a:hover {
         background: rgba(255,70,85,0.25);
         color: var(--red);
-        border-radius: 12px;
-        box-shadow: 0 0 20px var(--red);
+        border-radius: 10px;
+        box-shadow: 0 0 18px var(--red);
     }
     .sidebar img {
         width: 28px;
@@ -63,7 +65,7 @@
     .toggle-btn {
         position: absolute;
         top: 20px;
-        right: -25px;
+        right: -60px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
@@ -107,6 +109,7 @@
     }
 
     .page {
+        position: relative;
         padding: 30px 30px;
         height: 80vh;
         width: 90vw;
@@ -175,7 +178,7 @@
     pointer-events: none;
     }
 
-    .pistols.active, .smgs.active, .rifles.active, .snipers.active, .lmgs.active {
+    .pistols.active, .smgs.active, .rifles.active, .snipers.active, .lmgs.active, .shotguns.active {
         opacity: 1;
         pointer-events: auto;
     }
@@ -274,7 +277,17 @@
         border-radius: 8px;
         cursor: pointer;
     }
-
+    header{
+        position:fixed;
+        top:20px;
+        left:60px;
+        font-size:2.5rem;
+        font-weight:bold;
+        color:var(--red);
+        text-shadow:0 0 10px var(--red),0 0 30px var(--red);
+        transition:left .3s;
+        z-index:1000;
+    }
     </style>
 
 
@@ -282,6 +295,7 @@
 
 
 <body>
+    <header>SpikeSense</header>
     <div class="page-wrapper">
             <div id="mySidebar" class="sidebar">
                 <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
@@ -291,6 +305,7 @@
                 <a href="sources.html"> Sources</a>
                 <a href="reccoAgents.html"> Recommended Agents</a>
                 <a href="login.html"> Login</a>
+                <a href="update.html"> Account </a>
             </div>
         <div class="page">
             <h1>Recommended Weapons</h1>
@@ -495,8 +510,9 @@
 
 <script>
     const playerData = JSON.parse(localStorage.getItem("playerData"));
-    
-    if (playerData?.weaponTypes) {
+    if (!playerData || !playerData.weaponTypes) {
+        document.querySelector('.rifles').classList.add('active');
+    } else {
         const allTypes = ["pistols", "smgs", "rifles", "snipers", "shotguns", "lmgs"];
         
         allTypes.forEach(type => {

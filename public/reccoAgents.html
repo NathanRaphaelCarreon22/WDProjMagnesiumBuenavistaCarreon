@@ -20,9 +20,9 @@
     .sidebar {
         position: fixed;
         top: 0;
-        left: 0;
+        left: -250px;
         height: 100%;
-        width: 60px;
+        width: 250px;
         background: rgba(26, 31, 46, 0.96);
         display: flex;
         flex-direction: column;
@@ -31,8 +31,10 @@
         transition: width 0.3s ease;
         z-index: 3000;
         box-shadow: 2px 0 25px rgba(255,70,85,0.5);
+        transition: left 0.3s ease, box-shadow 0.3s ease;
     }
     .sidebar.expanded {
+        left: 0px;
         width: 250px;
         align-items: flex-start;
         padding-left: 12px;
@@ -63,7 +65,7 @@
     .toggle-btn {
         position: absolute;
         top: 20px;
-        right: -25px;
+        right: -60px;
         width: 50px;
         height: 50px;
         border-radius: 50%;
@@ -312,6 +314,7 @@
                 <a href="sources.html"> Sources</a>
                 <a href="reccoWeapons.html"> Recommended Weapons</a>
                 <a href="login.html"> Login</a>
+                <a href="update.html"> Account </a>
             </div>
         <div class="page">
             <h1>Recommended Agents</h1>
@@ -372,27 +375,23 @@
 </body>
 
 <script>
-
+    const playerData = JSON.parse(localStorage.getItem("playerData"));
     if (playerData?.agentRole) {
-        const role = playerData.agentRole;
+        const role = playerData.agentRole.toLowerCase().trim();
 
-        const classes = {
-            duelists: document.querySelectorAll('.duelists .agent-card'),
-            initiators: document.querySelectorAll('.initiators .agent-card'),
-            controllers: document.querySelectorAll('.controllers .agent-card'),
-            sentinels: document.querySelectorAll('.sentinels .agent-card'),
+        const sections = {
+            duelists: document.querySelector('.duelists'),
+            initiators: document.querySelector('.initiators'),
+            controllers: document.querySelector('.controllers'),
+            sentinels: document.querySelector('.sentinels'),
         };
 
-        Object.entries(classes).forEach(([key, nodeList]) => {
-                nodeList.forEach(card => {
-                if (key === role) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
-                }
-            });
+        Object.entries(sections).forEach(([key, section]) => {
+            if (!section) return;
+
+            section.classList.toggle('active', key === role);
         });
-    }
+        };
     function toggleSidebar() {
         document.getElementById("mySidebar").classList.toggle("expanded");
         document.body.classList.toggle("sidebar-expanded");

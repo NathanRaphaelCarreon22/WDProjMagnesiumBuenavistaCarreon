@@ -23,24 +23,26 @@
         transition:margin-left .3s;
         overflow-x:hidden;
         height: 100vh;
+        background-image: url('assets/SUNSET1.jpg');
+        background-size: cover;
+        background-position: center;
     }
     form {
         display: flex;
         gap: 50px;
         padding: 30px 30px;
         height: 80vh;
-        width: 90vw;
+        width: 50vw;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
         flex-wrap: wrap;
         position: relative;
-
+        flex-direction: column;
         background-color: #121b2b;
         border: 2px solid var(--red);
         border-radius: 10px;
         box-shadow: 0 0 15px rgba(255, 70, 85, 0.6);
     }
-
     fieldset {
         flex-grow: 1;
         padding: 16px 16px 32px;
@@ -50,7 +52,7 @@
         border: 2px solid var(--grey);
         background-color: #0d2764;
         flex-direction: column;
-    }
+    }  
     legend {
         text-align: center;
     }
@@ -64,9 +66,80 @@
         border-color: #ff4655;
         animation: valorantPulse 0.6s ease-out;
     }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        height: 100%;
+        width: 250px;
+        background: rgba(26, 31, 46, 0.96);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 80px;
+        transition: width 0.3s ease;
+        z-index: 3000;
+        box-shadow: 2px 0 25px rgba(255,70,85,0.5);
+        transition: left 0.3s ease, box-shadow 0.3s ease;
+    }
+    .sidebar.expanded {
+        left: 0px;
+        width: 250px;
+        align-items: flex-start;
+        padding-left: 12px;
+    }
+    .sidebar a {
+        width: auto;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 12px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: 0.3s;
+        z-index: 2000;
+    }
+    .sidebar a:hover {
+        background: rgba(255,70,85,0.25);
+        color: var(--red);
+        border-radius: 10px;
+        box-shadow: 0 0 18px var(--red);
+    }
+    .sidebar img {
+        width: 28px;
+        height: 28px;
+        filter: drop-shadow(0 0 6px var(--red));
+    }
+    .toggle-btn {
+        position: absolute;
+        top: 20px;
+        right: -60px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--red);
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 3001;
+        box-shadow: 0 0 20px var(--red);
+    }
 </style>
 <body>
+    <div id="mySidebar" class="sidebar">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <a href="../index.html"> Home</a>
+        <a href="weapons.html"> Weapons</a>
+        <a href="maps.html"> Maps</a>
+        <a href="sources.html"> Sources</a>
+        <a href="reccoAgents.html"> Recommended Agents</a>
+        <a href="reccoWeapons.html"> Recommended Weapons</a>
+        <a href="update.html"> Account </a>
+    </div>
     <form action="/signup" method="post" name="form">
+        <h1> SIGN UP FOR AN ACCOUNT</h1>
         <div>
             <fieldset>
                 <legend>SIGNUP</legend>
@@ -104,24 +177,28 @@
             <fieldset>
                 <legend>PLEASE SELECT WEAPON TYPE</legend>
                 <label>
-                    <input type="checkbox" class="weaponType" name="weaponType" value="SMGS">
+                    <input type="checkbox" class="weaponType" name="weaponType" value="smgs">
                     SMGS
                 </label> <br>
                 <label>
-                    <input type="checkbox" class="weaponType" name="weaponType" value="Rifles">
+                    <input type="checkbox" class="weaponType" name="weaponType" value="rifles">
                     Rifles
                 </label> <br>
                 <label>
-                    <input type="checkbox" class="weaponType" name="weaponType" value="Shotguns">
+                    <input type="checkbox" class="weaponType" name="weaponType" value="shotguns">
                     Shotguns
                 </label> <br>
                 <label>
-                    <input type="checkbox" class="weaponType" name="weaponType" value="Scout">
-                    Scout
+                    <input type="checkbox" class="weaponType" name="weaponType" value="pistols">
+                    Pistols
                 </label> <br>
                 <label>
-                    <input type="checkbox" class="weaponType" name="weaponType" value="Machine Guns">
+                    <input type="checkbox" class="weaponType" name="weaponType" value="lmgs">
                     Machine Guns
+                </label> <br>
+                <label>
+                    <input type="checkbox" class="weaponType" name="weaponType" value="snipers">
+                    Snipers
                 </label>
             </fieldset>
 
@@ -162,5 +239,10 @@
         localStorage.setItem('playerData', JSON.stringify(playerData));
         alert('Signup successful! Your preferences have been saved.');
     });
+
+    function toggleSidebar() {
+        document.getElementById("mySidebar").classList.toggle("expanded");
+        document.body.classList.toggle("sidebar-expanded");
+    }
 </script>
 
